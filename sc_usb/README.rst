@@ -1,8 +1,8 @@
 USB library
 ...........
 
-:Latest release: 1.0.4rc1
-:Maintainer: XMOS
+:Version: 1.0.4rc1
+:Vendor: XMOS
 :Description: High/Full Speed USB Device Shared Library
 
 
@@ -24,13 +24,21 @@ Known Issues
 
 * None
 
-Support
-=======
-
-Issues may be submitted via the Issues tab in this github repo. Response to any issues submitted as at the discretion of the maintainer for this line.
-
 Required software (dependencies)
 ================================
 
   * None
+
+Documentation
+=============
+
+You can find the documentation for this software in the doc/ directory of the package.
+
+Support
+=======
+
+  This package is support by XMOS Ltd. Issues can be raised against the software
+  at:
+
+      http://www.xmos.com/support
 

@@ -3,10 +3,31 @@
 # or a valid argument for the --target option when compiling.
 
 TARGET = mic_array_ref.xn
-APP_NAME = 
+APP_NAME = devkit_firmware
 
 # The flags passed to xcc when building the application
-BUILD_FLAGS     = -DFLASH_MAX_UPGRADE_SIZE=64*1024 -fcomment-asm -Xmapper --map -Xmapper MAPFILE -Wall -O3 -report -lquadflash -fsubword-select -save-temps -g -fxscope -DXSCOPE -DSDA_HIGH=2 -DSCL_HIGH=1 -DXUD_SERIES_SUPPORT=4 -march=xs2a -DUSB_TILE=tile[1] -DADAT_TX_USE_SHARED_BUFF=1 -DQUAD_SPI_FLASH=1 -Wno-timing
+BUILD_FLAGS     = \
+	-DADAT_TX_USE_SHARED_BUFF=1 \
+	-DFLASH_MAX_UPGRADE_SIZE=64*1024 \
+	-DQUAD_SPI_FLASH=1 \
+	-DSCL_HIGH=1 \
+	-DSDA_HIGH=2 \
+	-DUSB_TILE=tile[1] \
+	-DXSCOPE \
+	-DXUD_SERIES_SUPPORT=4 \
+	-fcomment-asm \
+	-fsubword-select \
+	-fxscope \
+	-g \
+	-lquadflash \
+	-march=xs2a \
+	-O3 \
+	-report \
+	-save-temps \
+	-Wall \
+	-Wno-timing \
+	-Xmapper --map \
+	-Xmapper MAPFILE
 
 # The USED_MODULES variable lists other module used by the application. These
 # modules will extend the SOURCE_DIRS, INCLUDE_DIRS and LIB_DIRS variables.

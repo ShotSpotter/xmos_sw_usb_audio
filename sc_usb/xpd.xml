@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<xpd>
+    <components></components>
+    <description>High/Full Speed USB Device Shared Library</description>
+    <docdir>module_usb_shared/doc</docdir>
+    <location>git://git/apps/sc_usb</location>
+    <name>sc_usb</name>
+    <maintainer>XMOS</maintainer>
+    <partnumber>XM-002750-DH</partnumber>
+    <release parenthash = "020c28eab6b849b4a47240b57b9272f6849d34d4" version = "1.0.0alpha0" githash = "2cfe5b6a5c62cb32299378666d22ec44199d14d9"></release>
+    <release parenthash = "632f48e1b30f00f73a3e2a584ed3210a25a6ee9d" version = "1.0.0alpha1" githash = "14b6823cd88638d88eb5aab4df42def9886fbf62"></release>
+    <release parenthash = "163f78d41cde104921db134df5b1d4f8bb2b89c8" version = "1.0.0rc0" githash = "fbf504b18f7a7d68a3bdefdf24def0fc65ff9acc"></release>
+    <release parenthash = "e2ccf7e3f28b9ace9b1a6f9ce8e48a80e0383f4a" version = "1.0.1beta0" githash = "2fb1d2a5376129feb6d9d09f45a74db8603c742b"></release>
+    <release parenthash = "97c83335f0f64cf1e7d0d8861904305e008cb463" version = "1.0.1beta1" githash = "b5ad82614a597aa6a485c0ec12b178a695be1e55"></release>
+    <release parenthash = "9d268eb715272e017cec65d976e372d14680556c" version = "1.0.2beta0" githash = "05c0827e24ea067f36ab2d0dfba12e60c453bd16"></release>
+    <release parenthash = "dc50fdbcbddda07b92f6a34381907e487d34fdcd" version = "1.0.2beta1" githash = "c8437d2541523b27f848428fe0e8ec78b6821421"></release>
+    <release parenthash = "f2110c77cfd5021cd09eec1446ba5c39a3af1ba7" version = "1.0.3beta0" githash = "b22caf0efed28794754dbe871dab232c8995dc53"></release>
+    <release parenthash = "52d185084aab639b5d7fccfce28c3673306bf5f8" version = "1.0.3beta1" githash = "818cb404bbc01c21ea9f32a10e8eedc53bb729e7"></release>
+    <release parenthash = "9663b329b99305de4284c809cc53ae20f00c348b" version = "1.0.3beta2" githash = "ebc5e6c771f552a1f815e3b15d3319325f06ac2a"></release>
+    <release parenthash = "3a39e93dc19514634726ed403c96b47d541afa21" version = "1.0.3beta3" githash = "487bc858c7dd5757aa7869283f5ff8816dca4e9a"></release>
+    <release parenthash = "6e04ac0a626844b5ca2c89c3dbdb1a0371988599" version = "1.0.3beta4" githash = "f5849b22d9512002190955db99e0fdb86c828da9"></release>
+    <release parenthash = "f5849b22d9512002190955db99e0fdb86c828da9" version = "1.0.3rc0" githash = "e943edfa329bd37099c853d90174c475f067cbb0"></release>
+    <release parenthash = "13c5036049936e2d339489d4678cb3748d219baf" version = "1.0.4alpha0" githash = "3dca6e4782d4b710b783830e97ac5ff113a04287"></release>
+    <release parenthash = "3dca6e4782d4b710b783830e97ac5ff113a04287" version = "1.0.4rc0" githash = "690b505c38ff308cbc5aa75062709c324f2ea602"></release>
+    <release parenthash = "0526e54ab920651b244907852cb60db0de0a62d0" version = "1.0.4rc1" githash = "c3f3c302b1049e9224e7f2211f395bfc04e3c4b3"></release>
+    <subpartnumber>XM-002751-SM</subpartnumber>
+    <vendor>XMOS</vendor>
+    <version_defines></version_defines>
+    <xpd_version>1.0</xpd_version>
+    <xsoftip_exclude>module_usb_shared</xsoftip_exclude>
+    <version>1.0.4rc1</version>
+</xpd>

@@ -1,0 +1,21 @@
+-- -*- mode: lua -*-
+
+configPoints = {}
+
+derivedValues = {}
+
+ports = {}
+
+channels = {}
+
+function getConfigStatus()
+   return "Trusted", {}
+end
+
+generatedCode = {
+   includes = {},
+   globals  = "",
+   body  = ""
+}
+
+api = {}
