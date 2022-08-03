@@ -1,0 +1,101 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Overview &mdash; XMOS USB Device (XUD) Library v documentation</title>
+
+    <link rel="stylesheet" href=".static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href=".static/globals.css"  type="text/css" />
+    <link rel="stylesheet" href=".static/ui.css" type="text/css" />
+    <link rel="stylesheet" href=".static/app.css"  type="text/css" />
+    <link rel="stylesheet" href=".static/mobile.css"  type="text/css" />
+    <link rel="stylesheet" href=".static/xde.css"
+    type="text/css" /><script type="text/javascript" src=".static/scripts.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src=".static/jquery.js"></script>
+    <script type="text/javascript" src=".static/underscore.js"></script>
+    <script type="text/javascript" src=".static/doctools.js"></script>
+    <link rel="top" title="XMOS USB Device (XUD) Library v documentation" href="index.html" />
+    <link rel="next" title="File Arrangement" href="page1.html" />
+    <link rel="prev" title="XMOS USB Device (XUD) Library" href="index.html" /> 
+  </head>
+  <body class="xde indented-content" onload="prepareContents();">  
+          <div id="body">
+             <div id="content">
+             <h1>Overview</h1>
+
+             <div class='columns'>
+            
+  <p>The XUD library allows the implementation of both full-speed and
+high-speed USB 2.0 devices on L-Series, G-series and U-Series devices.</p>
+<p>For the L and G series the implementation requires the use of an
+external ULPI transceiver such as the SMSC USB33XX range. U-Series
+devices include an integrated USB transceiver. Three libraries, with
+identical API, are provided - one each for  L, G and U-Series
+devices.</p>
+<p>Please note, G-series is not recommended for new designs.</p>
+<p>The library performs all the low-level I/O operations required to meet
+the USB 2.0 specification. This processing goes up to and includes the
+transaction level. It removes all low-level timing requirements from the
+application, allowing quick development of all manner of USB devices.</p>
+<p>The XUD library runs in a single core with endpoint and application
+cores communicating with it via a combination of channel communication
+and shared memory variables.</p>
+<p>One channel is required per IN or OUT endpoint. Endpoint 0 (the control
+endpoint) requires two channels, one for each direction. Please note that
+throughout this document the USB nomenclature is used: an OUT endpoint
+is used to transfer data from the host to the device, an IN endpoint is
+used when the host requests data from the device.</p>
+<p>An example task diagram is shown in <a class="reference" href="#figure-xud-overview"><span>XUD Overview</span></a>.  Circles
+represent cores running with arrows depicting communication
+channels between these cores. In this configuration there is one
+core that deals with endpoint 0, which has both the input and output
+channel for endpoint 0. IN endpoint 1 is dealt with by a second core,
+and OUT endpoint 2 and IN endpoint 5 are dealt with by a third core.
+Cores must be ready to communicate with the XUD library whenever the
+host demands its attention. If not, the XUD library will NAK.</p>
+<p>It is important to note that, for performance reasons, cores
+communicate with the XUD library using both XC channels and shared
+memory communication. Therefore, <em>all cores using the XUD library must
+be on the same tile as the library itself</em>.</p>
+<div align="center" class="figure" id="figure-xud-overview">
+<div class="caption"><span>XUD Overview</span></div>
+<object data="_images/xud_overview.svg" type="image/svg+xml" width="120mm"><embed src="_images/xud_overview.svg" type="image/svg+xml" width="120mm" /></object>
+</div>
+
+
+             </div>
+             </div>
+
+
+          </div>
+
+          <div>
+             <!--seealsos-->
+          </div><div id="local_seealso">
+             <h1>See Also</h1>
+             <ul class="iconmenu">
+             <li><a href="page1.html">File Arrangement</a></li>
+             <li><a href="page2.html">Resource Usage</a></li>
+             <li><a href="page3.html">Basic Usage</a></li>
+             <li><a href="page7.html">Advanced Usage</a></li>
+             <li><a href="page8.html">Further Reading</a></li>
+             <li><a href="page6.html">Document Version History</a></li>
+             </ul>
+          </div>
+    <div class="footer">
+    </div>
+  </body>
+</html>

@@ -1,0 +1,248 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Advanced Usage &mdash; XMOS USB Device (XUD) Library v documentation</title>
+
+    <link rel="stylesheet" href=".static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href=".static/globals.css"  type="text/css" />
+    <link rel="stylesheet" href=".static/ui.css" type="text/css" />
+    <link rel="stylesheet" href=".static/app.css"  type="text/css" />
+    <link rel="stylesheet" href=".static/mobile.css"  type="text/css" />
+    <link rel="stylesheet" href=".static/xde.css"
+    type="text/css" /><script type="text/javascript" src=".static/scripts.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src=".static/jquery.js"></script>
+    <script type="text/javascript" src=".static/underscore.js"></script>
+    <script type="text/javascript" src=".static/doctools.js"></script>
+    <link rel="top" title="XMOS USB Device (XUD) Library v documentation" href="index.html" />
+    <link rel="next" title="Further Reading" href="page8.html" />
+    <link rel="prev" title="Basic Usage" href="page3.html" /> 
+  </head>
+  <body class="xde indented-content" onload="prepareContents();">  
+          <div id="body">
+             <div id="content">
+             <h1>Advanced Usage</h1>
+
+             <div class='columns'>
+            
+  <p>Advanced usage is termed to mean the implementation of multiple endpoints in a single core as well as the addition of real-time processing to an endpoint core.</p>
+<p>The functions documented in Basic Usage such as <tt class="docutils literal"><span class="pre">XUD_SetBuffer()</span></tt> and <tt class="docutils literal"><span class="pre">XUD_GetBuffer()</span></tt> block until data has either been successfully sent or received to or from the host.  For this reason it is not generally possible to handle multiple endpoints in a single core efficiently (or at all, depending on the protocols involved).</p>
+<p>The XUD library therefore provides functions to allow the separation of requesting to send/receive a packet and the notification of a successful transfer.  This is based on the <tt class="docutils literal"><span class="pre">XC</span></tt> <tt class="docutils literal"><span class="pre">select</span></tt> statement language feature.</p>
+<p>General operation is as follows:</p>
+<blockquote>
+<div><ul>
+<li>An <tt class="docutils literal"><span class="pre">XUD_SetReady_</span></tt> function is called to mark an endpoint as ready to send or receive data</li>
+<li>An <tt class="docutils literal"><span class="pre">select</span></tt> statement is used, along with a <tt class="docutils literal"><span class="pre">select</span> <span class="pre">handler</span></tt> to wait for, and capture, send/receive notifications from the <tt class="docutils literal"><span class="pre">XUD_Manager</span></tt> core.</li>
+</ul>
+</div></blockquote>
+<p>The available <tt class="docutils literal"><span class="pre">XUD_SetReady_</span></tt> functions are listed below.</p>
+<h2 class="topic" id="xud-setready-out"><tt class="docutils literal"><span class="pre">XUD_SetReady_Out()</span></tt></h2>
+<div><ul class='lib'><li class="function">
+<h2 id="XUD_SetReady_Out">
+int <tt class="descname">XUD_SetReady_Out</tt><big>(</big><a class="reference" href="page3.html#XUD_ep" title="XUD_ep"><span>XUD_ep</span></a><em>&nbsp;ep</em>, unsigned char<em>&nbsp;buffer[]</em><big>)</big></h2>
+<p>Marks an OUT endpoint as ready to receive data.</p>
+<h3 class="nosecnum compact" id="">Parameters</h3>
+<div><ul class="field_list" class="latex_compact"><li><h2>ep</h2>
+<p>The OUT endpoint identifier (created by <tt class="docutils literal"><span class="pre">XUD_InitEp</span></tt>).</p>
+</li>
+<li><h2>buffer</h2>
+<p>The buffer in which to store data received from the host. The buffer is assumed to be word aligned.</p>
+</li>
+</ul>
+</div><h3 class="nosecnum compact" id="">Returns</h3>
+<div><p>XUD_RES_OKAY on success, for errors see <tt class="docutils literal"><span class="pre">Status</span> <span class="pre">Reporting</span></tt>.</p>
+</div></li>
+
+</ul></div><h2 class="topic" id="xud-setready-in"><tt class="docutils literal"><span class="pre">XUD_SetReady_In()</span></tt></h2>
+<div><ul class='lib'><li class="function">
+<h2 id="XUD_SetReady_In">
+XUD_Result_t <tt class="descname">XUD_SetReady_In</tt><big>(</big><a class="reference" href="page3.html#XUD_ep" title="XUD_ep"><span>XUD_ep</span></a><em>&nbsp;ep</em>, unsigned char<em>&nbsp;buffer[]</em>, int<em>&nbsp;len</em><big>)</big></h2>
+<p>Marks an IN endpoint as ready to transmit data.</p>
+<h3 class="nosecnum compact" id="">Parameters</h3>
+<div><ul class="field_list" class="latex_compact"><li><h2>ep</h2>
+<p>The IN endpoint identifier (created by <tt class="docutils literal"><span class="pre">XUD_InitEp</span></tt>).</p>
+</li>
+<li><h2>buffer</h2>
+<p>The buffer to transmit to the host. The buffer is assumed be word aligned.</p>
+</li>
+<li><h2>len</h2>
+<p>The length of the data to transmit.</p>
+</li>
+</ul>
+</div><h3 class="nosecnum compact" id="">Returns</h3>
+<div><p>XUD_RES_OKAY on success, for errors see <tt class="docutils literal"><span class="pre">Status</span> <span class="pre">Reporting</span></tt>.</p>
+</div></li>
+
+</ul><p>The following functions are also provided to ease integration with more complex buffering schemes than a single packet buffer.  A example might be a circular-buffer for an audio stream.</p>
+</div><h2 class="topic" id="xud-setready-outptr"><tt class="docutils literal"><span class="pre">XUD_SetReady_OutPtr()</span></tt></h2>
+<div><ul class='lib'><li class="function">
+<h2 id="XUD_SetReady_OutPtr">
+int <tt class="descname">XUD_SetReady_OutPtr</tt><big>(</big><a class="reference" href="page3.html#XUD_ep" title="XUD_ep"><span>XUD_ep</span></a><em>&nbsp;ep</em>, unsigned<em>&nbsp;addr</em><big>)</big></h2>
+<p>Marks an OUT endpoint as ready to receive data.</p>
+<h3 class="nosecnum compact" id="">Parameters</h3>
+<div><ul class="field_list" class="latex_compact"><li><h2>ep</h2>
+<p>The OUT endpoint identifier (created by <tt class="docutils literal"><span class="pre">XUD_InitEp</span></tt>).</p>
+</li>
+<li><h2>addr</h2>
+<p>The address of the buffer in which to store data received from the host. The buffer is assumed to be word aligned.</p>
+</li>
+</ul>
+</div><h3 class="nosecnum compact" id="">Returns</h3>
+<div><p>XUD_RES_OKAY on success, for errors see <tt class="docutils literal"><span class="pre">Status</span> <span class="pre">Reporting</span></tt>.</p>
+</div></li>
+
+</ul></div><h2 class="topic" id="xud-setready-inptr"><tt class="docutils literal"><span class="pre">XUD_SetReady_InPtr()</span></tt></h2>
+<div><ul class='lib'><li class="function">
+<h2 id="XUD_SetReady_InPtr">
+XUD_Result_t <tt class="descname">XUD_SetReady_InPtr</tt><big>(</big><a class="reference" href="page3.html#XUD_ep" title="XUD_ep"><span>XUD_ep</span></a><em>&nbsp;ep</em>, unsigned<em>&nbsp;addr</em>, int<em>&nbsp;len</em><big>)</big></h2>
+<p>Marks an IN endpoint as ready to transmit data.</p>
+<h3 class="nosecnum compact" id="">Parameters</h3>
+<div><ul class="field_list" class="latex_compact"><li><h2>ep</h2>
+<p>The IN endpoint identifier (created by <tt class="docutils literal"><span class="pre">XUD_InitEp</span></tt>).</p>
+</li>
+<li><h2>addr</h2>
+<p>The address of the buffer to transmit to the host. The buffer is assumed be word aligned.</p>
+</li>
+<li><h2>len</h2>
+<p>The length of the data to transmit.</p>
+</li>
+</ul>
+</div><h3 class="nosecnum compact" id="">Returns</h3>
+<div><p>XUD_RES_OKAY on success, for errors see <tt class="docutils literal"><span class="pre">Status</span> <span class="pre">Reporting</span></tt>.</p>
+</div></li>
+
+</ul><p>Once an endpoint has been marked ready to send/receive by calling one of the above <tt class="docutils literal"><span class="pre">XUD_SetReady_</span></tt> functions, an <tt class="docutils literal"><span class="pre">XC</span> <span class="pre">select</span></tt> statement can be used to handle notifications of a packet being sent/received from <tt class="docutils literal"><span class="pre">XUD_Manager()</span></tt>.  These notifications are communicated via channels.</p>
+<p>For convenience, <tt class="docutils literal"><span class="pre">select</span> <span class="pre">handler</span></tt> functions are provided to handle events in the <tt class="docutils literal"><span class="pre">select</span></tt> statement.  These are documented below.</p>
+</div><h2 class="topic" id="xud-getdata-select"><tt class="docutils literal"><span class="pre">XUD_GetData_Select()</span></tt></h2>
+<div><ul class='lib'><li class="function">
+<h2 id="XUD_GetData_Select">
+void <tt class="descname">XUD_GetData_Select</tt><big>(</big>chanend<em>&nbsp;c</em>, <a class="reference" href="page3.html#XUD_ep" title="XUD_ep"><span>XUD_ep</span></a><em>&nbsp;ep</em>, unsigned<em>&nbsp;&amp;length</em>, XUD_Result_t<em>&nbsp;&amp;result</em><big>)</big></h2>
+<p>Select handler function for receiving OUT endpoint data in a select.</p>
+<h3 class="nosecnum compact" id="">Parameters</h3>
+<div><ul class="field_list" class="latex_compact"><li><h2>c</h2>
+<p>The chanend related to the endpoint</p>
+</li>
+<li><h2>ep</h2>
+<p>The OUT endpoint identifier (created by <tt class="docutils literal"><span class="pre">XUD_InitEp</span></tt>).</p>
+</li>
+<li><h2>length</h2>
+<p>Passed by reference. The number of bytes written to the buffer (that was passed into <a class="reference" href="#XUD_SetReady_Out" title="XUD_SetReady_Out"><span>XUD_SetReady_Out()</span></a>
+)</p>
+</li>
+<li><h2>result</h2>
+<p>XUD_Result_t passed by reference. XUD_RES_OKAY on success, for errors see <tt class="docutils literal"><span class="pre">Status</span> <span class="pre">Reporting</span></tt>.</p>
+</li>
+</ul>
+</div></li>
+
+</ul></div><h2 class="topic" id="xud-setdata-select"><tt class="docutils literal"><span class="pre">XUD_SetData_Select()</span></tt></h2>
+<div><ul class='lib'><li class="function">
+<h2 id="XUD_SetData_Select">
+void <tt class="descname">XUD_SetData_Select</tt><big>(</big>chanend<em>&nbsp;c</em>, <a class="reference" href="page3.html#XUD_ep" title="XUD_ep"><span>XUD_ep</span></a><em>&nbsp;ep</em>, XUD_Result_t<em>&nbsp;&amp;result</em><big>)</big></h2>
+<p>Select handler function for transmitting IN endpoint data in a select.</p>
+<h3 class="nosecnum compact" id="">Parameters</h3>
+<div><ul class="field_list" class="latex_compact"><li><h2>c</h2>
+<p>The chanend related to the endpoint</p>
+</li>
+<li><h2>ep</h2>
+<p>The IN endpoint identifier (created by <tt class="docutils literal"><span class="pre">XUD_InitEp</span></tt>).</p>
+</li>
+<li><h2>result</h2>
+<p>Passed by reference. XUD_RES_OKAY on success, for errors see <tt class="docutils literal"><span class="pre">Status</span> <span class="pre">Reporting</span></tt>.</p>
+</li>
+</ul>
+</div></li>
+
+</ul></div><h2 class="topic" id="example">Example</h2>
+<div><p>A simple example of the functionality described in this section is shown below:</p>
+<pre>
+
+void ExampleEndpoint(chanend c_ep_out, chanend c_ep_in)
+{
+    unsigned char rxBuffer[1024];
+    unsigned char txBuffer[] = {0, 1, 2, 3, 4};
+    int length, returnVal;
+
+
+    XUD_ep ep_out = XUD_InitEp(c_ep_out);
+    XUD_ep ep_in = XUD_InitEp(c_ep_in);
+
+    /* Mark OUT endpoint as ready to receive */
+    XUD_SetReady_Out(ep_out, rxBuffer);
+    XUD_SetReady_In(ep_in, txBuffer, 5);
+
+    while(1)
+    {
+        select
+        {
+            case XUD_GetData_Select(c_ep_out, ep_out, length):
+
+                /* Packet from host recieved */
+
+                for(int i = 0; i&lt; length; i++)
+                {
+                    /* Process packet... */
+                }
+
+                /* Mark EP as ready again */
+                XUD_SetReady_Out(ep_out, rxBuffer);
+                break;
+                
+            case XUD_SetData_Select(c_ep_in, ep_in, returnVal):
+
+                /* Packet successfully sent to host */
+        
+                /* Create new buffer */
+                for(int i = 0; i &lt; 5; i++)
+                {
+                    txBuffer[i]++;
+                }
+
+                /* Mark EP as ready again */
+                XUD_SetReady_In(ep_in, txBuffer, 5);
+                break;
+
+        }
+    }
+}
+//:
+
+</pre>
+</div>
+
+             </div>
+             </div>
+
+
+          </div>
+
+          <div>
+             <!--seealsos-->
+          </div><div id="local_seealso">
+             <h1>See Also</h1>
+             <ul class="iconmenu">
+             <li><a href="page0.html">Overview</a></li>
+             <li><a href="page1.html">File Arrangement</a></li>
+             <li><a href="page2.html">Resource Usage</a></li>
+             <li><a href="page3.html">Basic Usage</a></li>
+             <li><a href="page8.html">Further Reading</a></li>
+             <li><a href="page6.html">Document Version History</a></li>
+             </ul>
+          </div>
+    <div class="footer">
+    </div>
+  </body>
+</html>

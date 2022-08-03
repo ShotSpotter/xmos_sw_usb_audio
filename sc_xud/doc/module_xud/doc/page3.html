@@ -1,0 +1,457 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Basic Usage &mdash; XMOS USB Device (XUD) Library v documentation</title>
+
+    <link rel="stylesheet" href=".static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href=".static/globals.css"  type="text/css" />
+    <link rel="stylesheet" href=".static/ui.css" type="text/css" />
+    <link rel="stylesheet" href=".static/app.css"  type="text/css" />
+    <link rel="stylesheet" href=".static/mobile.css"  type="text/css" />
+    <link rel="stylesheet" href=".static/xde.css"
+    type="text/css" /><script type="text/javascript" src=".static/scripts.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src=".static/jquery.js"></script>
+    <script type="text/javascript" src=".static/underscore.js"></script>
+    <script type="text/javascript" src=".static/doctools.js"></script>
+    <link rel="top" title="XMOS USB Device (XUD) Library v documentation" href="index.html" />
+    <link rel="next" title="Advanced Usage" href="page7.html" />
+    <link rel="prev" title="Resource Usage" href="page2.html" /> 
+  </head>
+  <body class="xde indented-content" onload="prepareContents();">  
+          <div id="body">
+             <div id="content">
+             <h1>Basic Usage</h1>
+
+             <div class='columns'>
+            
+  <p>This section outlines the basic usage of XUD. Basic use is termed to
+mean each endpoint runs in its own dedicated core.
+Multiple endpoints in a single core are possible, please see Advanced Usage.</p>
+<h2 class="topic" id="xud-core-xud-manager">XUD Core: <tt class="docutils literal"><span class="pre">XUD_Manager()</span></tt></h2>
+<div><p>This is the main XUD task that interfaces with the USB transceiver.
+It performs power-signalling/handshaking on the USB bus, and passes packets
+to/from the various endpoints.</p>
+<p>This function should be called directly from the top-level <tt class="docutils literal"><span class="pre">par</span></tt>
+statement in <tt class="docutils literal"><span class="pre">main()</span></tt> to ensure that the XUD library is ready
+within the 100ms allowed by the USB specification.</p>
+<ul class='lib'><li class="function">
+<h2 id="XUD_Manager">
+int <tt class="descname">XUD_Manager</tt><big>(</big>chanend<em>&nbsp;c_epOut[]</em>, int<em>&nbsp;noEpOut</em>, chanend<em>&nbsp;c_epIn[]</em>, int<em>&nbsp;noEpIn</em>, chanend<em>&nbsp;?c_sof</em>, XUD_EpType<em>&nbsp;epTypeTableOut[]</em>, XUD_EpType<em>&nbsp;epTypeTableIn[]</em>, out port<em>&nbsp;?p_usb_rst</em>, clock<em>&nbsp;?clk</em>, unsigned<em>&nbsp;rstMask</em>, XUD_BusSpeed_t<em>&nbsp;desiredSpeed</em>, XUD_PwrConfig<em>&nbsp;pwrConfig</em><big>)</big></h2>
+<p>This performs the low-level USB I/O operations.</p>
+<p>Note that this needs to run in a thread with at least 80 MIPS worst case execution speed.</p>
+<h3 class="nosecnum compact" id="">Parameters</h3>
+<div><ul class="field_list" class="latex_compact"><li><h2>c_epOut</h2>
+<p>An array of channel ends, one channel end per output endpoint (USB OUT transaction); this includes a channel to obtain requests on Endpoint 0.</p>
+</li>
+<li><h2>noEpOut</h2>
+<p>The number of output endpoints, should be at least 1 (for Endpoint 0).</p>
+</li>
+<li><h2>c_epIn</h2>
+<p>An array of channel ends, one channel end per input endpoint (USB IN transaction); this includes a channel to respond to requests on Endpoint 0.</p>
+</li>
+<li><h2>noEpIn</h2>
+<p>The number of input endpoints, should be at least 1 (for Endpoint 0).</p>
+</li>
+<li><h2>c_sof</h2>
+<p>A channel to receive SOF tokens on. This channel must be connected to a process that can receive a token once every 125 ms. If tokens are not read, the USB layer will lock up. If no SOF tokens are required <tt class="docutils literal"><span class="pre">null</span></tt> should be used for this parameter.</p>
+</li>
+<li><h2>epTypeTableOut</h2>
+<p>See <tt class="docutils literal"><span class="pre">epTypeTableIn</span></tt>.</p>
+</li>
+<li><h2>epTypeTableIn</h2>
+<p>This and <tt class="docutils literal"><span class="pre">epTypeTableOut</span></tt> are two arrays indicating the type of the endpoint. Legal types include: <tt class="docutils literal"><span class="pre">XUD_EPTYPE_CTL</span></tt> (Endpoint 0), <tt class="docutils literal"><span class="pre">XUD_EPTYPE_BUL</span></tt> (Bulk endpoint), <tt class="docutils literal"><span class="pre">XUD_EPTYPE_ISO</span></tt> (Isochronous endpoint), <tt class="docutils literal"><span class="pre">XUD_EPTYPE_INT</span></tt> (Interrupt endpoint), <tt class="docutils literal"><span class="pre">XUD_EPTYPE_DIS</span></tt> (Endpoint not used). The first array contains the endpoint types for each of the OUT endpoints, the second array contains the endpoint types for each of the IN endpoints.</p>
+</li>
+<li><h2>p_usb_rst</h2>
+<p>The port to used to connect to an external phy reset line. Should be <tt class="docutils literal"><span class="pre">null</span></tt> for U-Series.</p>
+</li>
+<li><h2>clk</h2>
+<p>The clock block to use for the p_usb_rst port - this should not be clock block 0. Should be <tt class="docutils literal"><span class="pre">null</span></tt> for U-Series.</p>
+</li>
+<li><h2>rstMask</h2>
+<p>The mask to use when taking an external phy into/out of reset. The mask is ORed into the port to disable reset, and unset when deasserting reset. Use &#8216;-1&#8217; as a default mask if this port is not shared.</p>
+</li>
+<li><h2>desiredSpeed</h2>
+<p>This parameter specifies what speed the device will attempt to run at i.e. full-speed (ie 12Mbps) or high-speed (480Mbps) if supported by the host. Pass <tt class="docutils literal"><span class="pre">XUD_SPEED_HS</span></tt> if high-speed is desired or <tt class="docutils literal"><span class="pre">XUD_SPEED_FS</span></tt> if not. Low speed USB is not supported by XUD.</p>
+</li>
+<li><h2>pwrConfig</h2>
+<p>Specifies whether the device is bus or self-powered. When self-powered the XUD will monitor the VBUS line for host disconnections. This is required for compliance reasons. Valid values are XUD_PWR_SELF and XUD_PWR_BUS.</p>
+</li>
+</ul>
+</div></li>
+
+</ul><h3 id="endpoint-type-table">Endpoint Type Table</h3>
+<div><p>The endpoint type table should take an array of <tt class="docutils literal"><span class="pre">XUD_EpType</span></tt> to inform XUD
+about endpoints being used.  This is mainly used to indicate the transfer-type
+of each endpoint (bulk, control, isochronous or interrupt) as well as
+whether the endpoint wishes to be informed about bus-resets (see <a class="reference" href="#status-reporting"><span>Status Reporting</span></a>).</p>
+<p><em>Note:</em> endpoints can also be marked as disabled.</p>
+<p>Endpoints that are not used will <tt class="docutils literal"><span class="pre">NAK</span></tt> any traffic from the host.</p>
+</div><h3 id="pwrconfig"><tt class="docutils literal"><span class="pre">PwrConfig</span></tt></h3>
+<div><p>The <tt class="docutils literal"><span class="pre">PwrConfig</span></tt> parameter to <tt class="docutils literal"><span class="pre">XUD_Manager()</span></tt> indicates if the device is bus or self-powered.</p>
+<p>Valid values for this parameter are <tt class="docutils literal"><span class="pre">XUD_PWR_SELF</span></tt> and <tt class="docutils literal"><span class="pre">XUD_PWR_BUS</span></tt>.</p>
+<p>When <tt class="docutils literal"><span class="pre">XUD_PWR_SELF</span></tt> is used, <tt class="docutils literal"><span class="pre">XUD_Manager()</span></tt> monitors the VBUS input for a valid voltage and reponds appropriately. The USB Specification states that the devices pull-ups must be disabled when a valid VBUS is not present. This is important when submitting a device for compliance testing since this is explicitly tested.</p>
+<p>If the device is bus-powered <tt class="docutils literal"><span class="pre">XUD_PWR_BUS</span></tt> can be used since is assumed that the device is not powered up when VBUS is not present and therefore no voltage monitoring is required.  In this configuration the VBUS input to the device/PHY need not be present.</p>
+<p><tt class="docutils literal"><span class="pre">XUD_PWR_BUS</span></tt> can be used in order to run on a self-powered board without provision for VBUS wiring to the PHY/device, but this is not advised.</p>
+</div></div><h2 class="topic" id="endpoint-communication-with-xud-manager">Endpoint Communication with <tt class="docutils literal"><span class="pre">XUD_Manager()</span></tt></h2>
+<div><p>Communication state between a core and the XUD library is encapsulated
+in an opaque type:</p>
+<ul class='lib'><li class="type">
+<h2 id="XUD_ep">
+<tt class="descname">XUD_ep</tt></h2>
+<p>Typedef for endpoint identifiers.</p>
+</li>
+
+</ul><p>All client calls communicating with the XUD library pass in this type.
+These data structures can be created at the start of execution of a
+client core with the following call that takes as an argument the
+endpoint channel connected to the XUD library:</p>
+<ul class='lib'><li class="function">
+<h2 id="XUD_InitEp">
+XUD_ep <tt class="descname">XUD_InitEp</tt><big>(</big>chanend<em>&nbsp;c_ep</em><big>)</big></h2>
+<p>Initialises an XUD_ep.</p>
+<h3 class="nosecnum compact" id="">Parameters</h3>
+<div><ul class="field_list" class="latex_compact"><li><h2>c_ep</h2>
+<p>Endpoint channel to be connected to the XUD library.</p>
+</li>
+</ul>
+</div><h3 class="nosecnum compact" id="">Returns</h3>
+<div><p>Endpoint identifier</p>
+</div></li>
+
+</ul><p>Endpoint data is sent/received using three main functions,
+<tt class="docutils literal"><span class="pre">XUD_SetData()</span></tt>, <tt class="docutils literal"><span class="pre">XUD_GetData()</span></tt> and <tt class="docutils literal"><span class="pre">XUD_GetSetupData()</span></tt>.</p>
+<p>These assembly functions implement the low-level shared memory/channel
+communication with the <tt class="docutils literal"><span class="pre">XUD_Manager()</span></tt> core. For developer convenience
+these calls are wrapped up by XC functions.</p>
+<p>These functions will automatically deal with any low-level complications required
+such as Packet ID toggling etc.</p>
+<h3 id="xud-getbuffer"><tt class="docutils literal"><span class="pre">XUD_GetBuffer()</span></tt></h3>
+<div><ul class='lib'><li class="function">
+<h2 id="XUD_GetBuffer">
+XUD_Result_t <tt class="descname">XUD_GetBuffer</tt><big>(</big><a class="reference" href="#XUD_ep" title="XUD_ep"><span>XUD_ep</span></a><em>&nbsp;ep_out</em>, unsigned char<em>&nbsp;buffer[]</em>, unsigned<em>&nbsp;&amp;length</em><big>)</big></h2>
+<p>This function must be called by a thread that deals with an OUT endpoint.</p>
+<p>When the host sends data, the low-level driver will fill the buffer. It pauses until data is available.</p>
+<h4 class="nosecnum compact" id="">Parameters</h4>
+<div><ul class="field_list" class="latex_compact"><li><h2>ep_out</h2>
+<p>The OUT endpoint identifier (created by <tt class="docutils literal"><span class="pre">XUD_InitEP</span></tt>).</p>
+</li>
+<li><h2>buffer</h2>
+<p>The buffer in which to store data received from the host. The buffer is assumed to be word aligned.</p>
+</li>
+<li><h2>length</h2>
+<p>The number of bytes written to the buffer</p>
+</li>
+</ul>
+</div><h4 class="nosecnum compact" id="">Returns</h4>
+<div><p>XUD_RES_OKAY on success, for errors see <a href="#id1"><span class="problematic" id="id2">``</span></a>Status Reporting``_.</p>
+</div></li>
+
+</ul></div><h3 id="xud-setbuffer"><tt class="docutils literal"><span class="pre">XUD_SetBuffer()</span></tt></h3>
+<div><ul class='lib'><li class="function">
+<h2 id="XUD_SetBuffer">
+XUD_Result_t <tt class="descname">XUD_SetBuffer</tt><big>(</big><a class="reference" href="#XUD_ep" title="XUD_ep"><span>XUD_ep</span></a><em>&nbsp;ep_in</em>, unsigned char<em>&nbsp;buffer[]</em>, unsigned<em>&nbsp;datalength</em><big>)</big></h2>
+<p>This function must be called by a thread that deals with an IN endpoint.</p>
+<p>When the host asks for data, the low-level driver will transmit the buffer to the host.</p>
+<h4 class="nosecnum compact" id="">Parameters</h4>
+<div><ul class="field_list" class="latex_compact"><li><h2>ep_in</h2>
+<p>The endpoint identifier (created by <tt class="docutils literal"><span class="pre">XUD_InitEp</span></tt>).</p>
+</li>
+<li><h2>buffer</h2>
+<p>The buffer of data to transmit to the host.</p>
+</li>
+<li><h2>datalength</h2>
+<p>The number of bytes in the buffer.</p>
+</li>
+</ul>
+</div><h4 class="nosecnum compact" id="">Returns</h4>
+<div><p>XUD_RES_OKAY on success, for errors see <a href="#id3"><span class="problematic" id="id4">``</span></a>Status Reporting``_.</p>
+</div></li>
+
+</ul></div><h3 id="xud-setbuffer-epmax"><tt class="docutils literal"><span class="pre">XUD_SetBuffer_EpMax()</span></tt></h3>
+<div><p>This function provides a similar function to <tt class="docutils literal"><span class="pre">XUD_SetBuffer</span></tt> function
+but it breaks the data up in packets of a fixed
+maximum size. This is especially useful for control transfers where large
+descriptors must be sent in typically 64 byte transactions.</p>
+<ul class='lib'><li class="function">
+<h2 id="XUD_SetBuffer_EpMax">
+XUD_Result_t <tt class="descname">XUD_SetBuffer_EpMax</tt><big>(</big><a class="reference" href="#XUD_ep" title="XUD_ep"><span>XUD_ep</span></a><em>&nbsp;ep_in</em>, unsigned char<em>&nbsp;buffer[]</em>, unsigned<em>&nbsp;datalength</em>, unsigned<em>&nbsp;epMax</em><big>)</big></h2>
+<p>Similar to XUD_SetBuffer but breaks up data transfers into smaller packets.</p>
+<p>This function must be called by a thread that deals with an IN endpoint. When the host asks for data, the low-level driver will transmit the buffer to the host.</p>
+<h4 class="nosecnum compact" id="">Parameters</h4>
+<div><ul class="field_list" class="latex_compact"><li><h2>ep_in</h2>
+<p>The IN endpoint identifier (created by <tt class="docutils literal"><span class="pre">XUD_InitEp</span></tt>).</p>
+</li>
+<li><h2>buffer</h2>
+<p>The buffer of data to transmit to the host.</p>
+</li>
+<li><h2>datalength</h2>
+<p>The number of bytes in the buffer.</p>
+</li>
+<li><h2>epMax</h2>
+<p>The maximum packet size in bytes.</p>
+</li>
+</ul>
+</div><h4 class="nosecnum compact" id="">Returns</h4>
+<div><p>XUD_RES_OKAY on success, for errors see <a href="#id5"><span class="problematic" id="id6">``</span></a>Status Reporting``_.</p>
+</div></li>
+
+</ul></div><h3 id="xud-dogetrequest"><tt class="docutils literal"><span class="pre">XUD_DoGetRequest()</span></tt></h3>
+<div><ul class='lib'><li class="function">
+<h2 id="XUD_DoGetRequest">
+XUD_Result_t <tt class="descname">XUD_DoGetRequest</tt><big>(</big><a class="reference" href="#XUD_ep" title="XUD_ep"><span>XUD_ep</span></a><em>&nbsp;ep_out</em>, <a class="reference" href="#XUD_ep" title="XUD_ep"><span>XUD_ep</span></a><em>&nbsp;ep_in</em>, unsigned char<em>&nbsp;buffer[]</em>, unsigned<em>&nbsp;length</em>, unsigned<em>&nbsp;requested</em><big>)</big></h2>
+<p>Performs a combined <tt class="docutils literal"><span class="pre">XUD_SetBuffer</span></tt> and <tt class="docutils literal"><span class="pre">XUD_GetBuffer</span></tt>.</p>
+<p>It transmits the buffer of the given length over the <tt class="docutils literal"><span class="pre">ep_in</span></tt> endpoint to answer an IN request, and then waits for a 0 length Status OUT transaction on <tt class="docutils literal"><span class="pre">ep_out</span></tt>. This function is normally called to handle Get control requests to Endpoint 0.</p>
+<h4 class="nosecnum compact" id="">Parameters</h4>
+<div><ul class="field_list" class="latex_compact"><li><h2>ep_out</h2>
+<p>The endpoint identifier that handles Endpoint 0 OUT data in the XUD manager.</p>
+</li>
+<li><h2>ep_in</h2>
+<p>The endpoint identifier that handles Endpoint 0 IN data in the XUD manager.</p>
+</li>
+<li><h2>buffer</h2>
+<p>The data to send in response to the IN transaction. Note that this data is chopped up in fragments of at most 64 bytes.</p>
+</li>
+<li><h2>length</h2>
+<p>Length of data to be sent.</p>
+</li>
+<li><h2>requested</h2>
+<p>The length that the host requested, (Typically pass the value <tt class="docutils literal"><span class="pre">wLength</span></tt>).</p>
+</li>
+</ul>
+</div><h4 class="nosecnum compact" id="">Returns</h4>
+<div><p>XUD_RES_OKAY on success, for errors see <a href="#id7"><span class="problematic" id="id8">``</span></a>Status Reporting``_</p>
+</div></li>
+
+</ul></div><h3 id="xud-dosetrequeststatus"><tt class="docutils literal"><span class="pre">XUD_DoSetRequestStatus()</span></tt></h3>
+<div><ul class='lib'><li class="function">
+<h2 id="XUD_DoSetRequestStatus">
+XUD_Result_t <tt class="descname">XUD_DoSetRequestStatus</tt><big>(</big><a class="reference" href="#XUD_ep" title="XUD_ep"><span>XUD_ep</span></a><em>&nbsp;ep_in</em><big>)</big></h2>
+<p>This function sends an empty packet back on the next IN request with PID1.</p>
+<p>It is normally used by Endpoint 0 to acknowledge success of a control transfer.</p>
+<h4 class="nosecnum compact" id="">Parameters</h4>
+<div><ul class="field_list" class="latex_compact"><li><h2>ep_in</h2>
+<p>The Endpoint 0 IN identifier to the XUD manager.</p>
+</li>
+</ul>
+</div><h4 class="nosecnum compact" id="">Returns</h4>
+<div><p>XUD_RES_OKAY on success, for errors see <a href="#id9"><span class="problematic" id="id10">``</span></a>Status Reporting``_.</p>
+</div></li>
+
+</ul></div><h3 id="xud-setdevaddr"><tt class="docutils literal"><span class="pre">XUD_SetDevAddr()</span></tt></h3>
+<div><ul class='lib'><li class="function">
+<h2 id="XUD_SetDevAddr">
+XUD_Result_t <tt class="descname">XUD_SetDevAddr</tt><big>(</big>unsigned<em>&nbsp;addr</em><big>)</big></h2>
+<p>Sets the device&#8217;s address.</p>
+<p>This function must be called by Endpoint 0 once a <tt class="docutils literal"><span class="pre">setDeviceAddress</span></tt> request is made by the host.</p>
+<p>Must be run on USB core</p>
+<h4 class="nosecnum compact" id="">Parameters</h4>
+<div><ul class="field_list" class="latex_compact"><li><h2>addr</h2>
+<p>New device address.</p>
+</li>
+</ul>
+</div></li>
+
+</ul></div><h3 id="xud-setstall"><tt class="docutils literal"><span class="pre">XUD_SetStall()</span></tt></h3>
+<div><ul class='lib'><li class="function">
+<h2 id="XUD_SetStall">
+void <tt class="descname">XUD_SetStall</tt><big>(</big><a class="reference" href="#XUD_ep" title="XUD_ep"><span>XUD_ep</span></a><em>&nbsp;ep</em><big>)</big></h2>
+<p>Mark an endpoint as STALLed.</p>
+<p>It is cleared automatically if a SETUP received on the endpoint.</p>
+<p>Must be run on same tile as XUD core</p>
+<h4 class="nosecnum compact" id="">Parameters</h4>
+<div><ul class="field_list" class="latex_compact"><li><h2>ep</h2>
+<p>XUD_ep type.</p>
+</li>
+</ul>
+</div></li>
+
+</ul></div><h3 id="xud-setstallbyaddr"><tt class="docutils literal"><span class="pre">XUD_SetStallByAddr()</span></tt></h3>
+<div><ul class='lib'><li class="function">
+<h2 id="XUD_SetStallByAddr">
+void <tt class="descname">XUD_SetStallByAddr</tt><big>(</big>int<em>&nbsp;epNum</em><big>)</big></h2>
+<p>Mark an endpoint as STALL based on its EP address.</p>
+<p>Cleared automatically if a SETUP received on the endpoint. Note: the IN bit of the endpoint address is used.</p>
+<p>Must be run on same tile as XUD core</p>
+<h4 class="nosecnum compact" id="">Parameters</h4>
+<div><ul class="field_list" class="latex_compact"><li><h2>epNum</h2>
+<p>Endpoint number.</p>
+</li>
+</ul>
+</div></li>
+
+</ul></div><h3 id="xud-clearstall"><tt class="docutils literal"><span class="pre">XUD_ClearStall()</span></tt></h3>
+<div><ul class='lib'><li class="function">
+<h2 id="XUD_ClearStall">
+void <tt class="descname">XUD_ClearStall</tt><big>(</big><a class="reference" href="#XUD_ep" title="XUD_ep"><span>XUD_ep</span></a><em>&nbsp;ep</em><big>)</big></h2>
+<p>Mark an endpoint as NOT STALLed.</p>
+<p>Must be run on same tile as XUD core</p>
+<h4 class="nosecnum compact" id="">Parameters</h4>
+<div><ul class="field_list" class="latex_compact"><li><h2>ep</h2>
+<p>XUD_ep type.</p>
+</li>
+</ul>
+</div></li>
+
+</ul></div><h3 id="xud-clearstallbyaddr"><tt class="docutils literal"><span class="pre">XUD_ClearStallByAddr()</span></tt></h3>
+<div><ul class='lib'><li class="function">
+<h2 id="XUD_ClearStallByAddr">
+void <tt class="descname">XUD_ClearStallByAddr</tt><big>(</big>int<em>&nbsp;epNum</em><big>)</big></h2>
+<p>Mark an endpoint as NOT STALLed based on its EP address.</p>
+<p>Note: the IN bit of the endpoint address is used.</p>
+<p>Must be run on same tile as XUD core</p>
+<h4 class="nosecnum compact" id="">Parameters</h4>
+<div><ul class="field_list" class="latex_compact"><li><h2>epNum</h2>
+<p>Endpoint number.</p>
+</li>
+</ul>
+</div></li>
+
+</ul></div><h3 id="status-reporting"><span id="xud-status-reporting"></span>Status Reporting</h3>
+<div><p>Status reporting on an endpoint can be enabled so that bus state is
+known. This is achieved by ORing <tt class="docutils literal"><span class="pre">XUD_STATUS_ENABLE</span></tt> into the relevant
+endpoint in the endpoint type table.</p>
+<p>This means that endpoints are notified of USB bus resets (and
+bus-speed changes). The XUD access functions discussed previously
+(<tt class="docutils literal"><span class="pre">XUD_GetData</span></tt>, <tt class="docutils literal"><span class="pre">XUD_SetData</span></tt>, etc.) return XUD_RES_RST if
+a USB bus reset is detected.</p>
+<p>This reset notification is important if an endpoint core is expecting
+alternating INs and OUTs. For example, consider the case where an
+endpoint is always expecting the sequence OUT, IN, OUT (such as a control
+transfer). If an unplug/reset event was received after the first OUT,
+the host would return to sending the initial OUT after a replug, while
+the endpoint would hang on the IN. The endpoint needs to know of the bus
+reset in order to reset its state machine.</p>
+<p><em>Endpoint 0 therefore requires this functionality since it deals with
+bi-directional control transfers.</em></p>
+<p>This is also important for high-speed devices, since it is not
+guaranteed that the host will detect the device as a high-speed device.
+The device therefore needs to know what bus-speed it is currently running at.</p>
+<p>After a reset notification has been received, the endpoint must call the
+<tt class="docutils literal"><span class="pre">XUD_ResetEndpoint()</span></tt> function. This will return the current bus
+speed.</p>
+</div><h3 id="xud-resetendpoint"><tt class="docutils literal"><span class="pre">XUD_ResetEndpoint()</span></tt></h3>
+<div><ul class='lib'><li class="function">
+<h2 id="XUD_ResetEndpoint">
+XUD_BusSpeed_t <tt class="descname">XUD_ResetEndpoint</tt><big>(</big><a class="reference" href="#XUD_ep" title="XUD_ep"><span>XUD_ep</span></a><em>&nbsp;one</em>, <a class="reference" href="#XUD_ep" title="XUD_ep"><span>XUD_ep</span></a><em>&nbsp;&amp;?two</em><big>)</big></h2>
+<p>This function will complete a reset on an endpoint.</p>
+<p>Can take one or two <tt class="docutils literal"><span class="pre">XUD_ep</span></tt> as parameters (the second parameter can be set to <tt class="docutils literal"><span class="pre">null</span></tt>). The return value should be inspected to find the new bus-speed. In Endpoint 0 typically two endpoints are reset (IN and OUT). In other endpoints <tt class="docutils literal"><span class="pre">null</span></tt> can be passed as the second parameter.</p>
+<h4 class="nosecnum compact" id="">Parameters</h4>
+<div><ul class="field_list" class="latex_compact"><li><h2>one</h2>
+<p>IN or OUT endpoint identifier to perform the reset on.</p>
+</li>
+<li><h2>two</h2>
+<p>Optional second IN or OUT endpoint structure to perform a reset on.</p>
+</li>
+</ul>
+</div><h4 class="nosecnum compact" id="">Returns</h4>
+<div><p>Either <tt class="docutils literal"><span class="pre">XUD_SPEED_HS</span></tt> - the host has accepted that this device can execute at high speed, or <tt class="docutils literal"><span class="pre">XUD_SPEED_FS</span></tt> - the device is runnig at full speed.</p>
+</div></li>
+
+</ul></div></div><h2 class="topic" id="sof-channel">SOF Channel</h2>
+<div><p>An application can pass a channel-end to the <tt class="docutils literal"><span class="pre">c_sof</span></tt> parameter of
+<tt class="docutils literal"><span class="pre">XUD_Manager()</span></tt>.  This will cause a word of data to be output every time
+the device receives a SOF from the host.  This can be used for timing
+information for audio devices etc.  If this functionality is not required
+<tt class="docutils literal"><span class="pre">null</span></tt> should be passed as the parameter.  Please note, if a channel-end
+is passed into <tt class="docutils literal"><span class="pre">XUD_Manager()</span></tt> there must be a responsive task ready to
+receive SOF notifications otherwise the <tt class="docutils literal"><span class="pre">XUD_Manager()</span></tt> task will be
+blocked attempting to send these messages.</p>
+</div><h2 class="topic" id="usb-test-modes"><span id="xud-usb-test-modes"></span>USB Test Modes</h2>
+<div><p>XUD supports the required test modes for USB Compliance testing.</p>
+<p>XUD accepts commands from the endpoint 0 channels (in or out) to signal which test mode
+to enter via the <tt class="docutils literal"><span class="pre">XUD_SetTestMode()</span></tt> function. The commands are based on the definitions
+of the Test Mode Selector Codes in the USB 2.0 Specification Table 11-24.  The supported test modes are
+summarised in the table below.</p>
+<div class="figure"><div class="topic caption"><span>Supported Test Mode Selector Codes</span></div><table border="1" class="horizontal-borders vertical-borders docutils" id="table-test-modes">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head"><p>Value</p>
+</th>
+<th class="head"><p>Test Mode Description</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><p>1</p>
+</td>
+<td><p>Test_J</p>
+</td>
+</tr>
+<tr><td><p>2</p>
+</td>
+<td><p>Test_K</p>
+</td>
+</tr>
+<tr><td><p>3</p>
+</td>
+<td><p>Test_SE0_NAK</p>
+</td>
+</tr>
+<tr><td><p>4</p>
+</td>
+<td><p>Test_Packet</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div><p>The passing other codes endpoints other than 0 to <tt class="docutils literal"><span class="pre">XUD_SetTestMode()</span></tt> could result in undefined
+behaviour.</p>
+<p>As per the USB 2.0 Specification a power cycle or reboot is required to exit the test mode.</p>
+<h3 id="xud-settestmode"><tt class="docutils literal"><span class="pre">XUD_SetTestMode()</span></tt></h3>
+<div><ul class='lib'><li class="function">
+<h2 id="XUD_SetTestMode">
+void <tt class="descname">XUD_SetTestMode</tt><big>(</big><a class="reference" href="#XUD_ep" title="XUD_ep"><span>XUD_ep</span></a><em>&nbsp;ep</em>, unsigned<em>&nbsp;testMode</em><big>)</big></h2>
+<p>Enable a specific USB test mode in XUD.</p>
+<p>Must be run on same tile as XUD core</p>
+<h4 class="nosecnum compact" id="">Parameters</h4>
+<div><ul class="field_list" class="latex_compact"><li><h2>ep</h2>
+<p>XUD_ep type (must be endpoint 0 in or out)</p>
+</li>
+<li><h2>testMode</h2>
+<p>The desired test-mode</p>
+</li>
+</ul>
+</div></li>
+
+</ul></div></div>
+
+             </div>
+             </div>
+
+
+          </div>
+
+          <div>
+             <!--seealsos-->
+          </div><div id="local_seealso">
+             <h1>See Also</h1>
+             <ul class="iconmenu">
+             <li><a href="page0.html">Overview</a></li>
+             <li><a href="page1.html">File Arrangement</a></li>
+             <li><a href="page2.html">Resource Usage</a></li>
+             <li><a href="page7.html">Advanced Usage</a></li>
+             <li><a href="page8.html">Further Reading</a></li>
+             <li><a href="page6.html">Document Version History</a></li>
+             </ul>
+          </div>
+    <div class="footer">
+    </div>
+  </body>
+</html>
