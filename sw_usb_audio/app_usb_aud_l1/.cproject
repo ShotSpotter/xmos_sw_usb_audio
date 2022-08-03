@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+	<storageModule moduleId="org.eclipse.cdt.core.settings">
+		<cconfiguration id="com.xmos.cdt.toolchain.2016922649">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.xmos.cdt.toolchain.2016922649" moduleId="org.eclipse.cdt.core.settings" name="1ioxs">
+				<externalSettings/>
+				<extensions>
+					<extension id="com.xmos.cdt.core.XEBinaryParser" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="com.xmos.cdt.core.XdeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration buildProperties="" description="" id="com.xmos.cdt.toolchain.2016922649" name="1ioxs" parent="org.eclipse.cdt.build.core.emptycfg">
+					<folderInfo id="com.xmos.cdt.toolchain.2016922649.946961768" name="/" resourcePath="">
+						<toolChain id="com.xmos.cdt.toolchain.649282777" name="com.xmos.cdt.toolchain" superClass="com.xmos.cdt.toolchain">
+							<targetPlatform archList="all" binaryParser="com.xmos.cdt.core.XEBinaryParser;org.eclipse.cdt.core.GNU_ELF" id="com.xmos.cdt.core.platform.759700808" isAbstract="false" osList="linux,win32,macosx" superClass="com.xmos.cdt.core.platform"/>
+							<builder arguments="CONFIG=1ioxs" id="com.xmos.cdt.builder.base.1953582069" keepEnvironmentInBuildfile="false" managedBuildOn="false" superClass="com.xmos.cdt.builder.base">
+								<outputEntries>
+									<entry flags="VALUE_WORKSPACE_PATH" kind="outputPath" name="bin/1ioxs"/>
+								</outputEntries>
+							</builder>
+							<tool id="com.xmos.cdt.xc.compiler.1591783766" name="com.xmos.cdt.xc.compiler" superClass="com.xmos.cdt.xc.compiler">
+								<option id="com.xmos.xc.compiler.option.include.paths.1668103206" superClass="com.xmos.xc.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_shared}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/pdm_mics}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/audiostream}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_midi/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/xuduser}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_spdif_tx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_dfu/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/hostactive}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/mixer}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_xud/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_spdif_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_device}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/pll}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_xud/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/clocking}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/endpoint0}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_queue}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_shared/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_spdif_tx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_midi}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_queue/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/locks}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/usb_buffer}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_spdif_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_shared/src/class}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/ports}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_device/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/powersave}&quot;"/>
+								</option>
+								<inputType id="com.xmos.cdt.xc.compiler.input.1210961878" name="XC" superClass="com.xmos.cdt.xc.compiler.input"/>
+							</tool>
+							<tool id="com.xmos.cdt.c.compiler.90788111" name="com.xmos.cdt.c.compiler" superClass="com.xmos.cdt.c.compiler">
+								<option id="com.xmos.c.compiler.option.include.paths.739873203" superClass="com.xmos.c.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_shared}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/pdm_mics}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/audiostream}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_midi/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/xuduser}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_spdif_tx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_dfu/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/hostactive}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/mixer}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_xud/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_spdif_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_device}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/pll}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_xud/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/clocking}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/endpoint0}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_queue}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_shared/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_spdif_tx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_midi}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_queue/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/locks}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/usb_buffer}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_spdif_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_shared/src/class}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/ports}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_device/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/powersave}&quot;"/>
+								</option>
+								<inputType id="com.xmos.cdt.c.compiler.input.c.1825902378" name="C" superClass="com.xmos.cdt.c.compiler.input.c"/>
+							</tool>
+							<tool id="com.xmos.cdt.cxx.compiler.296031751" name="com.xmos.cdt.cxx.compiler" superClass="com.xmos.cdt.cxx.compiler">
+								<option id="com.xmos.cxx.compiler.option.include.paths.1298634764" superClass="com.xmos.cxx.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_shared}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/pdm_mics}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/audiostream}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_midi/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/xuduser}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_spdif_tx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_dfu/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/hostactive}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/mixer}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_xud/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_spdif_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_device}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/pll}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_xud/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/clocking}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/endpoint0}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_queue}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_shared/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_spdif_tx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_midi}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_queue/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/locks}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/usb_buffer}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_spdif_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_shared/src/class}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/ports}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_device/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/powersave}&quot;"/>
+								</option>
+								<inputType id="com.xmos.cdt.cxx.compiler.input.cpp.1329083579" name="C++" superClass="com.xmos.cdt.cxx.compiler.input.cpp"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding=".build*" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+		<cconfiguration id="com.xmos.cdt.toolchain.1669116227">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.xmos.cdt.toolchain.1669116227" moduleId="org.eclipse.cdt.core.settings" name="1xoxs">
+				<externalSettings/>
+				<extensions>
+					<extension id="com.xmos.cdt.core.XEBinaryParser" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="com.xmos.cdt.core.XdeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration buildProperties="" description="" id="com.xmos.cdt.toolchain.1669116227" name="1xoxs" parent="org.eclipse.cdt.build.core.emptycfg">
+					<folderInfo id="com.xmos.cdt.toolchain.1669116227.848540610" name="/" resourcePath="">
+						<toolChain id="com.xmos.cdt.toolchain.715691511" name="com.xmos.cdt.toolchain" superClass="com.xmos.cdt.toolchain">
+							<targetPlatform archList="all" binaryParser="com.xmos.cdt.core.XEBinaryParser;org.eclipse.cdt.core.GNU_ELF" id="com.xmos.cdt.core.platform.924278980" isAbstract="false" osList="linux,win32,macosx" superClass="com.xmos.cdt.core.platform"/>
+							<builder arguments="CONFIG=1xoxs" id="com.xmos.cdt.builder.base.1233555711" keepEnvironmentInBuildfile="false" managedBuildOn="false" superClass="com.xmos.cdt.builder.base">
+								<outputEntries>
+									<entry flags="VALUE_WORKSPACE_PATH" kind="outputPath" name="bin/1xoxs"/>
+								</outputEntries>
+							</builder>
+							<tool id="com.xmos.cdt.xc.compiler.1752602219" name="com.xmos.cdt.xc.compiler" superClass="com.xmos.cdt.xc.compiler">
+								<option id="com.xmos.xc.compiler.option.include.paths.895565121" superClass="com.xmos.xc.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_shared}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/pdm_mics}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/audiostream}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_midi/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/xuduser}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_spdif_tx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_dfu/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/hostactive}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/mixer}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_xud/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_spdif_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_device}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/pll}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_xud/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/clocking}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/endpoint0}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_queue}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_shared/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_spdif_tx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_midi}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_queue/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/locks}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/usb_buffer}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_spdif_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_shared/src/class}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/ports}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_device/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/powersave}&quot;"/>
+								</option>
+								<inputType id="com.xmos.cdt.xc.compiler.input.2104500053" name="XC" superClass="com.xmos.cdt.xc.compiler.input"/>
+							</tool>
+							<tool id="com.xmos.cdt.c.compiler.845185760" name="com.xmos.cdt.c.compiler" superClass="com.xmos.cdt.c.compiler">
+								<option id="com.xmos.c.compiler.option.include.paths.804969605" superClass="com.xmos.c.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_shared}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/pdm_mics}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/audiostream}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_midi/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/xuduser}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_spdif_tx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_dfu/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/hostactive}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/mixer}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_xud/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_spdif_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_device}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/pll}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_xud/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/clocking}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/endpoint0}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_queue}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_shared/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_spdif_tx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_midi}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_queue/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/locks}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/usb_buffer}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_spdif_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_shared/src/class}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/ports}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_device/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/powersave}&quot;"/>
+								</option>
+								<inputType id="com.xmos.cdt.c.compiler.input.c.1755776258" name="C" superClass="com.xmos.cdt.c.compiler.input.c"/>
+							</tool>
+							<tool id="com.xmos.cdt.cxx.compiler.357591133" name="com.xmos.cdt.cxx.compiler" superClass="com.xmos.cdt.cxx.compiler">
+								<option id="com.xmos.cxx.compiler.option.include.paths.1916330912" superClass="com.xmos.cxx.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_shared}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/pdm_mics}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/audiostream}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_midi/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/xuduser}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_spdif_tx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_dfu/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/hostactive}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/mixer}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_xud/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_spdif_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_device}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/pll}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_xud/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/clocking}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/endpoint0}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_queue}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_shared/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_spdif_tx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_midi}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_queue/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/locks}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/usb_buffer}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_spdif_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_shared/src/class}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/ports}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_device/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/module_usb_audio/powersave}&quot;"/>
+								</option>
+								<inputType id="com.xmos.cdt.cxx.compiler.input.cpp.1816286216" name="C++" superClass="com.xmos.cdt.cxx.compiler.input.cpp"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding=".build*" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+		<cconfiguration id="com.xmos.cdt.toolchain.94834487">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.xmos.cdt.toolchain.94834487" moduleId="org.eclipse.cdt.core.settings" name="2iomx">
+				<externalSettings/>
+				<extensions>
+					<extension id="com.xmos.cdt.core.XEBinaryParser" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="com.xmos.cdt.core.XdeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration buildProperties="" description="" id="com.xmos.cdt.toolchain.94834487" name="2iomx" parent="org.eclipse.cdt.build.core.emptycfg">
+					<folderInfo id="com.xmos.cdt.toolchain.94834487.811050435" name="/" resourcePath="">
+						<toolChain id="com.xmos.cdt.toolchain.124385303" name="com.xmos.cdt.toolchain" superClass="com.xmos.cdt.toolchain">
+							<targetPlatform archList="all" binaryParser="com.xmos.cdt.core.XEBinaryParser;org.eclipse.cdt.core.GNU_ELF" id="com.xmos.cdt.core.platform.568040261" isAbstract="false" osList="linux,win32,macosx" superClass="com.xmos.cdt.core.platform"/>
+							<builder arguments="CONFIG=2iomx" id="com.xmos.cdt.builder.base.438535355" keepEnvironmentInBuildfile="false" managedBuildOn="false" superClass="com.xmos.cdt.builder.base">
+								<outputEntries>
+									<entry flags="VALUE_WORKSPACE_PATH" kind="outputPath" name="bin/2iomx"/>
+								</outputEntries>
+							</builder>
+							<tool id="com.xmos.cdt.xc.compiler.715995187" name="com.xmos.cdt.xc.compiler" superClass="com.xmos.cdt.xc.compiler">
+								<inputType id="com.xmos.cdt.xc.compiler.input.901842704" name="XC" superClass="com.xmos.cdt.xc.compiler.input"/>
+							</tool>
+							<tool id="com.xmos.cdt.c.compiler.414325070" name="com.xmos.cdt.c.compiler" superClass="com.xmos.cdt.c.compiler">
+								<inputType id="com.xmos.cdt.c.compiler.input.c.1063450117" name="C" superClass="com.xmos.cdt.c.compiler.input.c"/>
+							</tool>
+							<tool id="com.xmos.cdt.cxx.compiler.1906825686" name="com.xmos.cdt.cxx.compiler" superClass="com.xmos.cdt.cxx.compiler">
+								<inputType id="com.xmos.cdt.cxx.compiler.input.cpp.1208671773" name="C++" superClass="com.xmos.cdt.cxx.compiler.input.cpp"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding=".build*" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+		<cconfiguration id="com.xmos.cdt.toolchain.1457226534">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.xmos.cdt.toolchain.1457226534" moduleId="org.eclipse.cdt.core.settings" name="2ioxs">
+				<externalSettings/>
+				<extensions>
+					<extension id="com.xmos.cdt.core.XEBinaryParser" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="com.xmos.cdt.core.XdeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration buildProperties="" description="" id="com.xmos.cdt.toolchain.1457226534" name="2ioxs" parent="org.eclipse.cdt.build.core.emptycfg">
+					<folderInfo id="com.xmos.cdt.toolchain.1457226534.1869416926" name="/" resourcePath="">
+						<toolChain id="com.xmos.cdt.toolchain.2007470976" name="com.xmos.cdt.toolchain" superClass="com.xmos.cdt.toolchain">
+							<targetPlatform archList="all" binaryParser="com.xmos.cdt.core.XEBinaryParser;org.eclipse.cdt.core.GNU_ELF" id="com.xmos.cdt.core.platform.1603189724" isAbstract="false" osList="linux,win32,macosx" superClass="com.xmos.cdt.core.platform"/>
+							<builder arguments="CONFIG=2ioxs" id="com.xmos.cdt.builder.base.1490059995" keepEnvironmentInBuildfile="false" managedBuildOn="false" superClass="com.xmos.cdt.builder.base">
+								<outputEntries>
+									<entry flags="VALUE_WORKSPACE_PATH" kind="outputPath" name="bin/2ioxs"/>
+								</outputEntries>
+							</builder>
+							<tool id="com.xmos.cdt.xc.compiler.99036065" name="com.xmos.cdt.xc.compiler" superClass="com.xmos.cdt.xc.compiler">
+								<inputType id="com.xmos.cdt.xc.compiler.input.2008597391" name="XC" superClass="com.xmos.cdt.xc.compiler.input"/>
+							</tool>
+							<tool id="com.xmos.cdt.c.compiler.781477472" name="com.xmos.cdt.c.compiler" superClass="com.xmos.cdt.c.compiler">
+								<inputType id="com.xmos.cdt.c.compiler.input.c.1475908360" name="C" superClass="com.xmos.cdt.c.compiler.input.c"/>
+							</tool>
+							<tool id="com.xmos.cdt.cxx.compiler.1236406172" name="com.xmos.cdt.cxx.compiler" superClass="com.xmos.cdt.cxx.compiler">
+								<inputType id="com.xmos.cdt.cxx.compiler.input.cpp.270519629" name="C++" superClass="com.xmos.cdt.cxx.compiler.input.cpp"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding=".build*" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+		<cconfiguration id="com.xmos.cdt.toolchain.806872964">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.xmos.cdt.toolchain.806872964" moduleId="org.eclipse.cdt.core.settings" name="2ioxx">
+				<externalSettings/>
+				<extensions>
+					<extension id="com.xmos.cdt.core.XEBinaryParser" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="com.xmos.cdt.core.XdeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration buildProperties="" description="" id="com.xmos.cdt.toolchain.806872964" name="2ioxx" parent="org.eclipse.cdt.build.core.emptycfg">
+					<folderInfo id="com.xmos.cdt.toolchain.806872964.94377405" name="/" resourcePath="">
+						<toolChain id="com.xmos.cdt.toolchain.1754677063" name="com.xmos.cdt.toolchain" superClass="com.xmos.cdt.toolchain">
+							<targetPlatform archList="all" binaryParser="com.xmos.cdt.core.XEBinaryParser;org.eclipse.cdt.core.GNU_ELF" id="com.xmos.cdt.core.platform.599605729" isAbstract="false" osList="linux,win32,macosx" superClass="com.xmos.cdt.core.platform"/>
+							<builder arguments="CONFIG=2ioxx" id="com.xmos.cdt.builder.base.1065351712" keepEnvironmentInBuildfile="false" managedBuildOn="false" superClass="com.xmos.cdt.builder.base">
+								<outputEntries>
+									<entry flags="VALUE_WORKSPACE_PATH" kind="outputPath" name="bin/2ioxx"/>
+								</outputEntries>
+							</builder>
+							<tool id="com.xmos.cdt.xc.compiler.947065170" name="com.xmos.cdt.xc.compiler" superClass="com.xmos.cdt.xc.compiler">
+								<inputType id="com.xmos.cdt.xc.compiler.input.1077693165" name="XC" superClass="com.xmos.cdt.xc.compiler.input"/>
+							</tool>
+							<tool id="com.xmos.cdt.c.compiler.1266628472" name="com.xmos.cdt.c.compiler" superClass="com.xmos.cdt.c.compiler">
+								<inputType id="com.xmos.cdt.c.compiler.input.c.1098448330" name="C" superClass="com.xmos.cdt.c.compiler.input.c"/>
+							</tool>
+							<tool id="com.xmos.cdt.cxx.compiler.79641597" name="com.xmos.cdt.cxx.compiler" superClass="com.xmos.cdt.cxx.compiler">
+								<inputType id="com.xmos.cdt.cxx.compiler.input.cpp.1657825300" name="C++" superClass="com.xmos.cdt.cxx.compiler.input.cpp"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding=".build*" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+		<cconfiguration id="com.xmos.cdt.toolchain.1151177725">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.xmos.cdt.toolchain.1151177725" moduleId="org.eclipse.cdt.core.settings" name="2xoxs">
+				<externalSettings/>
+				<extensions>
+					<extension id="com.xmos.cdt.core.XEBinaryParser" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="com.xmos.cdt.core.XdeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration buildProperties="" description="" id="com.xmos.cdt.toolchain.1151177725" name="2xoxs" parent="org.eclipse.cdt.build.core.emptycfg">
+					<folderInfo id="com.xmos.cdt.toolchain.1151177725.1983257728" name="/" resourcePath="">
+						<toolChain id="com.xmos.cdt.toolchain.1128749569" name="com.xmos.cdt.toolchain" superClass="com.xmos.cdt.toolchain">
+							<targetPlatform archList="all" binaryParser="com.xmos.cdt.core.XEBinaryParser;org.eclipse.cdt.core.GNU_ELF" id="com.xmos.cdt.core.platform.1954577187" isAbstract="false" osList="linux,win32,macosx" superClass="com.xmos.cdt.core.platform"/>
+							<builder arguments="CONFIG=2xoxs" id="com.xmos.cdt.builder.base.1297846094" keepEnvironmentInBuildfile="false" managedBuildOn="false" superClass="com.xmos.cdt.builder.base">
+								<outputEntries>
+									<entry flags="VALUE_WORKSPACE_PATH" kind="outputPath" name="bin/2xoxs"/>
+								</outputEntries>
+							</builder>
+							<tool id="com.xmos.cdt.xc.compiler.1539733189" name="com.xmos.cdt.xc.compiler" superClass="com.xmos.cdt.xc.compiler">
+								<inputType id="com.xmos.cdt.xc.compiler.input.1886821016" name="XC" superClass="com.xmos.cdt.xc.compiler.input"/>
+							</tool>
+							<tool id="com.xmos.cdt.c.compiler.1423660955" name="com.xmos.cdt.c.compiler" superClass="com.xmos.cdt.c.compiler">
+								<inputType id="com.xmos.cdt.c.compiler.input.c.1986465168" name="C" superClass="com.xmos.cdt.c.compiler.input.c"/>
+							</tool>
+							<tool id="com.xmos.cdt.cxx.compiler.2126861670" name="com.xmos.cdt.cxx.compiler" superClass="com.xmos.cdt.cxx.compiler">
+								<inputType id="com.xmos.cdt.cxx.compiler.input.cpp.1739944377" name="C++" superClass="com.xmos.cdt.cxx.compiler.input.cpp"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding=".build*" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+	</storageModule>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<profile id="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile">
+			<buildOutputProvider>
+				<openAction enabled="true" filePath=""/>
+				<parser enabled="true"/>
+			</buildOutputProvider>
+			<scannerInfoProvider id="specsFile">
+				<runAction arguments="-E -P -v -dD ${plugin_state_location}/${specs_file}" command="gcc" useDefault="true"/>
+				<parser enabled="true"/>
+			</scannerInfoProvider>
+		</profile>
+		<profile id="org.eclipse.cdt.make.core.GCCStandardMakePerFileProfile">
+			<buildOutputProvider>
+				<openAction enabled="true" filePath=""/>
+				<parser enabled="true"/>
+			</buildOutputProvider>
+			<scannerInfoProvider id="makefileGenerator">
+				<runAction arguments="-E -P -v -dD" command="" useDefault="true"/>
+				<parser enabled="true"/>
+			</scannerInfoProvider>
+		</profile>
+		<profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfile">
+			<buildOutputProvider>
+				<openAction enabled="true" filePath=""/>
+				<parser enabled="true"/>
+			</buildOutputProvider>
+			<scannerInfoProvider id="specsFile">
+				<runAction arguments="-E -P -v -dD ${plugin_state_location}/${specs_file}" command="gcc" useDefault="true"/>
+				<parser enabled="true"/>
+			</scannerInfoProvider>
+		</profile>
+		<profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP">
+			<buildOutputProvider>
+				<openAction enabled="true" filePath=""/>
+				<parser enabled="true"/>
+			</buildOutputProvider>
+			<scannerInfoProvider id="specsFile">
+				<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.cpp" command="g++" useDefault="true"/>
+				<parser enabled="true"/>
+			</scannerInfoProvider>
+		</profile>
+		<profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC">
+			<buildOutputProvider>
+				<openAction enabled="true" filePath=""/>
+				<parser enabled="true"/>
+			</buildOutputProvider>
+			<scannerInfoProvider id="specsFile">
+				<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="gcc" useDefault="true"/>
+				<parser enabled="true"/>
+			</scannerInfoProvider>
+		</profile>
+		<profile id="org.eclipse.cdt.managedbuilder.core.GCCWinManagedMakePerProjectProfile">
+			<buildOutputProvider>
+				<openAction enabled="true" filePath=""/>
+				<parser enabled="true"/>
+			</buildOutputProvider>
+			<scannerInfoProvider id="specsFile">
+				<runAction arguments="-c 'gcc -E -P -v -dD &quot;${plugin_state_location}/${specs_file}&quot;'" command="sh" useDefault="true"/>
+				<parser enabled="true"/>
+			</scannerInfoProvider>
+		</profile>
+		<profile id="org.eclipse.cdt.managedbuilder.core.GCCWinManagedMakePerProjectProfileCPP">
+			<buildOutputProvider>
+				<openAction enabled="true" filePath=""/>
+				<parser enabled="true"/>
+			</buildOutputProvider>
+			<scannerInfoProvider id="specsFile">
+				<runAction arguments="-c 'g++ -E -P -v -dD &quot;${plugin_state_location}/specs.cpp&quot;'" command="sh" useDefault="true"/>
+				<parser enabled="true"/>
+			</scannerInfoProvider>
+		</profile>
+		<profile id="org.eclipse.cdt.managedbuilder.core.GCCWinManagedMakePerProjectProfileC">
+			<buildOutputProvider>
+				<openAction enabled="true" filePath=""/>
+				<parser enabled="true"/>
+			</buildOutputProvider>
+			<scannerInfoProvider id="specsFile">
+				<runAction arguments="-c 'gcc -E -P -v -dD &quot;${plugin_state_location}/specs.c&quot;'" command="sh" useDefault="true"/>
+				<parser enabled="true"/>
+			</scannerInfoProvider>
+		</profile>
+	</storageModule>
+	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+		<project id="app_usb_aud_l1.null.24024257" name="app_usb_aud_l1"/>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+</cproject>
