@@ -206,7 +206,7 @@ int flash_cmd_write_page_data(unsigned char *data)
 
     if (current_flash_subpage_index == 4)
     {
-        if (isAllOnes(data))
+        if (isAllOnes(current_flash_page_data))
             FLASH_ERROR();
         if (fl_writeImagePage(current_flash_page_data) != 0)
             FLASH_ERROR();
