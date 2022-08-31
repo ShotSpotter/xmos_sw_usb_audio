@@ -1,0 +1,467 @@
+#include <xs1.h>
+    .core "XS2"
+    .corerev "REVA"
+    .globl _start
+    .extern exit,"f{0}(si)"
+    .text
+    .align 2
+_start:
+  ldc     r0, 0
+  ldc     r1, 0
+  ldc     r2, 0
+  ldc     r3, 0
+  ldc     r4, 0
+  ldc     r5, 0
+  ldc     r6, 0
+  ldc     r7, 0
+  ldc     r8, 0
+  ldc     r9, 0
+  ldap    r11, _cp
+  set     cp, r11
+  ldap    r11, _dp
+  set     dp, r11
+  ldc     r11, 11
+  get     r10, ps[r11]
+  ldc     r11, 0x2000
+  add     r11, r11, r10
+  set     sp, r11
+  getr    r0, XS1_RES_TYPE_CHANEND
+  ldc     r0, 0x0000
+  ldc     r1, 7
+  ldc     r2, 0x00
+  bl      write_sswitch_reg
+    ldc   r5, 0x80
+    ldc   r6, 0x88
+disableLinks:
+    ldc   r0, 0x0000
+
+    mov   r1, r5
+    ldc   r2, 0
+    bl    write_sswitch_reg
+    add   r5, r5, 1
+    eq    r0, r5, r6
+    bf    r0, disableLinks
+    ldc   r0, 0x0000
+    ldc   r1, 5
+    ldc   r2, 0x8002
+    bl    write_sswitch_reg_no_ack
+nodeIdLoop:
+    ldc   r1, 32770
+    getr  r0, XS1_RES_TYPE_CHANEND
+    freer res[r0]
+    shr   r0, r0, 16
+    eq    r0, r0, r1
+    bf    r0, nodeIdLoop
+    ldc   r0, 0x8002
+    ldc   r1, 0x0028
+    ldc   r2, 0x0100
+    bl    write_sswitch_reg
+    ldc   r0, 0x8002
+    ldc   r1, 136
+    ldw   r2, dp[xlink8RegVal]
+    bl    write_sswitch_reg
+    .section .dp.data,"adw", @progbits
+    .align 4
+xlink8RegVal:
+    .word 0xc0019833
+    .text
+    .section .dp.data,"adw", @progbits
+    .align 4
+dirBits0:
+    .word 0x22222102
+dirBits1:
+    .word 0x22222222
+    .text
+setDimensionReg:
+    ldc   r0, 0x8002
+    ldc   r1, 0x0c
+    ldw   r2, dp[dirBits0]
+    bl    write_sswitch_reg
+    ldc   r0, 0x8002
+    ldc   r1, 0x0d
+    ldw   r2, dp[dirBits1]
+    bl    write_sswitch_reg
+    .section .dp.data,"adw", @progbits
+    .align 4
+treeLinkProgValThere8:
+    .word 0xc0000000
+    .text
+sayHello8:
+    ldc   r0, 0x8002
+    ldc   r1, 0x0088
+    ldw   r2, dp[xlink8RegVal]
+    mkmsk r3, 1
+    ldc   r5, 24
+    shl   r3, r3, r5
+    or    r2, r2, r3
+    bl    write_sswitch_reg
+invokeXsscHello8:
+    ldc   r0, 0x8006
+    ldc   r1, 0x0080
+    ldw   r2, dp[treeLinkProgValThere8]
+    mkmsk r3, 1
+    ldc   r5, 24
+    shl   r3, r3, r5
+    or    r2, r2, r3
+    bl    write_sswitch_reg
+setXsscSysFreq8:
+    ldc   r0, 0x8006
+    ldc   r1, 0x51
+    ldc   r2, 0x18
+    bl    write_sswitch_reg
+  bl      _done
+    #include <xs1.h>
+// Copy of tools_libs/libxs1/switch_reg with .globl directives removed and
+// some extra utility functions added.
+
+.text
+.type read_sswitch_reg, @function
+// r0 - tileid
+// r1 - reg
+// r2 - pointer to data
+.cc_top read_sswitch_reg.function
+.align 2
+read_sswitch_reg:
+  // Build low half of destination
+  ldc r3, XS1_RES_TYPE_CONFIG | (XS1_CT_SSCTRL << XS1_CHAN_ID_CHANNUM_SHIFT)
+  bu read_switch_reg
+.size read_sswitch_reg, .-read_sswitch_reg
+.cc_bottom read_sswitch_reg.function
+.set read_sswitch_reg.nstackwords, read_switch_reg.nstackwords $M return_zero.nstackwords
+.set read_sswitch_reg.maxcores, read_switch_reg.maxcores $M return_zero.maxcores
+.set read_sswitch_reg.maxtimers, read_switch_reg.maxtimers $M return_zero.maxtimers
+.set read_sswitch_reg.maxchanends, read_switch_reg.maxchanends $M return_zero.maxchanends
+
+
+.type read_pswitch_reg, @function
+// r0 - tileid
+// r1 - reg
+// r2 - pointer to data
+.cc_top read_pswitch_reg.function
+.align 2
+read_pswitch_reg:
+  // Build low half of destination
+  ldc r3, XS1_RES_TYPE_CONFIG | (XS1_CT_PSCTRL << XS1_CHAN_ID_CHANNUM_SHIFT)
+  bu read_switch_reg
+.size read_pswitch_reg, .-read_pswitch_reg
+.cc_bottom read_pswitch_reg.function
+.set read_pswitch_reg.nstackwords, read_switch_reg.nstackwords $M return_zero.nstackwords
+.set read_pswitch_reg.maxcores, read_switch_reg.maxcores $M return_zero.maxcores
+.set read_pswitch_reg.maxtimers, read_switch_reg.maxtimers $M return_zero.maxtimers
+.set read_pswitch_reg.maxchanends, read_switch_reg.maxchanends $M return_zero.maxchanends
+
+.type read_switch_reg, @function
+// r0 - tileid
+// r1 - reg
+// r2 - pointer to data
+// r3 - low half of dest
+.cc_top read_switch_reg.function
+.align 2
+read_switch_reg:
+  // Check range of tileid
+  shr r11, r0, XS1_CHAN_ID_PROCESSOR_SIZE + XS1_CHAN_ID_NODE_SIZE
+  bt r11, return_zero
+
+  // Check range of reg
+  shr r11, r1, 16
+  bt r11, return_zero
+
+  // Build destination
+  shl r0, r0, XS1_CHAN_ID_PROCESSOR_SHIFT
+  or r0, r0, r3
+
+  // Allocate channel end
+  getr r11, XS1_RES_TYPE_CHANEND
+
+  setd res[r11], r0
+
+  // Send packet
+  ldc r3, XS1_CT_READC // Too big for outct immediate
+  outct res[r11], r3
+  shr r0, r11, 8
+  shl r0, r0, 8
+  shr r3, r1, 8
+  or r0, r0, r3
+  out res[r11], r0 // (c & 0xffffff00) | (reg >> 8)
+  outt res[r11], r1 // reg & 0xff
+  outct res[r11], XS1_CT_END
+  
+  // Receive response
+  inct r0, res[r11]
+  eq r0, r0, XS1_CT_ACK
+  bf r0, skip_in
+  in r1, res[r11]
+  stw r1, r2[0]
+skip_in:
+  chkct res[r11], XS1_CT_END
+  freer res[r11]
+  retsp 0
+.size read_switch_reg, .-read_switch_reg
+.cc_bottom read_switch_reg.function
+.set read_switch_reg.nstackwords, 0
+.set read_switch_reg.maxcores, 1
+.set read_switch_reg.maxtimers, 0
+.set read_switch_reg.maxchanends, 1
+
+
+.type write_sswitch_reg, @function
+// r0 - tileid
+// r1 - reg
+// r2 - data
+.cc_top write_sswitch_reg.function
+.align 2
+write_sswitch_reg:
+  // Build low half of destination
+  ldc r3, XS1_RES_TYPE_CONFIG | (XS1_CT_SSCTRL << XS1_CHAN_ID_CHANNUM_SHIFT)
+  ldc r11, 1
+  bu write_switch_reg
+.size write_sswitch_reg, .-write_sswitch_reg
+.cc_bottom write_sswitch_reg.function
+
+.set write_sswitch_reg.nstackwords, write_switch_reg.nstackwords $M return_zero.nstackwords
+.set write_sswitch_reg.maxcores, write_switch_reg.maxcores $M return_zero.maxcores
+.set write_sswitch_reg.maxtimers, write_switch_reg.maxtimers $M return_zero.maxtimers
+.set write_sswitch_reg.maxchanends, write_switch_reg.maxchanends $M return_zero.maxchanends
+
+
+.type write_pswitch_reg, @function
+// r0 - tileid
+// r1 - reg
+// r2 - data
+.cc_top write_pswitch_reg.function
+.align 2
+write_pswitch_reg:
+  // Build low half of destination
+  ldc r3, XS1_RES_TYPE_CONFIG | (XS1_CT_PSCTRL << XS1_CHAN_ID_CHANNUM_SHIFT)
+  ldc r11, 1
+  bu write_switch_reg
+.size write_pswitch_reg, .-write_pswitch_reg
+.cc_bottom write_pswitch_reg.function
+
+.set write_pswitch_reg.nstackwords, write_switch_reg.nstackwords $M return_zero.nstackwords
+.set write_pswitch_reg.maxcores, write_switch_reg.maxcores $M return_zero.maxcores
+.set write_pswitch_reg.maxtimers, write_switch_reg.maxtimers $M return_zero.maxtimers
+.set write_pswitch_reg.maxchanends, write_switch_reg.maxchanends $M return_zero.maxchanends
+
+
+.type write_sswitch_reg_no_ack, @function
+// r0 - tileid
+// r1 - reg
+// r2 - data
+.cc_top write_sswitch_reg_no_ack.function
+.align 2
+write_sswitch_reg_no_ack:
+  // Build low half of destination
+  ldc r3, XS1_RES_TYPE_CONFIG | (XS1_CT_SSCTRL << XS1_CHAN_ID_CHANNUM_SHIFT)
+  ldc r11, 0
+  bu write_switch_reg
+.size write_sswitch_reg_no_ack, .-write_sswitch_reg_no_ack
+.cc_bottom write_sswitch_reg_no_ack.function
+
+.set write_sswitch_reg_no_ack.nstackwords, write_switch_reg.nstackwords $M return_zero.nstackwords
+.set write_sswitch_reg_no_ack.maxcores, write_switch_reg.maxcores $M return_zero.maxcores
+.set write_sswitch_reg_no_ack.maxtimers, write_switch_reg.maxtimers $M return_zero.maxtimers
+.set write_sswitch_reg_no_ack.maxchanends, write_switch_reg.maxchanends $M return_zero.maxchanends
+
+
+.type write_pswitch_reg_no_ack, @function
+// r0 - tileid
+// r1 - reg
+// r2 - data
+.cc_top write_pswitch_reg_no_ack.function
+.align 2
+write_pswitch_reg_no_ack:
+  // Build low half of destination
+  ldc r3, XS1_RES_TYPE_CONFIG | (XS1_CT_PSCTRL << XS1_CHAN_ID_CHANNUM_SHIFT)
+  ldc r11, 0
+  bu write_switch_reg
+.size write_pswitch_reg_no_ack, .-write_pswitch_reg_no_ack
+.cc_bottom write_pswitch_reg_no_ack.function
+
+.set write_pswitch_reg_no_ack.nstackwords, write_switch_reg.nstackwords $M return_zero.nstackwords
+.set write_pswitch_reg_no_ack.maxcores, write_switch_reg.maxcores $M return_zero.maxcores
+.set write_pswitch_reg_no_ack.maxtimers, write_switch_reg.maxtimers $M return_zero.maxtimers
+.set write_pswitch_reg_no_ack.maxchanends, write_switch_reg.maxchanends $M return_zero.maxchanends
+
+.type write_switch_reg, @function
+// r0 - tileid
+// r1 - reg
+// r2 - data
+// r3 - low half of dest
+// r11 - request acknowledgement
+.cc_top write_switch_reg.function
+.align 2
+write_switch_reg:
+  stw r4, sp[0]
+  // Check range of tileid
+  shr r4, r0, XS1_CHAN_ID_PROCESSOR_SIZE + XS1_CHAN_ID_NODE_SIZE
+  bt r4, write_switch_reg_return_0
+  
+  // Check range of reg
+  shr r4, r1, 16
+  bt r4, write_switch_reg_return_0
+
+  // Build destination
+  shl r0, r0, XS1_CHAN_ID_PROCESSOR_SHIFT
+  or r0, r0, r3
+  
+  // Allocate channel end
+  getr r4, XS1_RES_TYPE_CHANEND
+  setd res[r4], r0
+
+  // Send start of packet
+  ldc r3, XS1_CT_WRITEC // Too big for outct immediate
+  outct res[r4], r3
+
+  bf r11, build_return_no_ack
+  shr r0, r4, 8
+  shl r0, r0, 8
+  bu write_switch_reg_send
+
+  // Return is sent to chanend 0xff of the destination node. Galaxian
+  // recognises this chanend and doesn't send an ack. With XS1_L / XS1_G will
+  // the switch will send an ack but will get junked at the destination as
+  // there are no devices with 256 channel ends. We use the node ID of the
+  // destination to ensure that the ack isn't routed over any XMOS links.
+build_return_no_ack:
+  shr r0, r0, 8
+  mkmsk r3, 8
+  or r0, r0, r3
+  shl r0, r0, 8
+
+write_switch_reg_send:
+  shr r3, r1, 8
+  or r0, r0, r3
+  out res[r4], r0 // (return & 0xffffff00) | (reg >> 8)
+  outt res[r4], r1 // reg & 0xff
+  out res[r4], r2
+  outct res[r4], XS1_CT_END
+  bf r11, write_switch_reg_free_and_return_1
+
+  inct r0, res[r4]
+  eq r0, r0, XS1_CT_ACK
+  chkct res[r4], XS1_CT_END
+  freer res[r4]
+
+  ldw r4, sp[0]
+  retsp 0
+
+write_switch_reg_return_0:
+  ldc r0, 0
+  ldw r4, sp[0]
+  retsp 0
+
+write_switch_reg_free_and_return_1:
+  freer res[r4]
+  ldc r0, 1
+  ldw r4, sp[0]
+  retsp 0
+
+.size write_switch_reg, .-write_switch_reg
+.cc_bottom write_switch_reg.function
+// Is this right, see bug 10684
+.set write_switch_reg.nstackwords, 0
+.set write_switch_reg.maxcores, 1
+.set write_switch_reg.maxtimers, 0
+.set write_switch_reg.maxchanends, 1
+
+.type return_zero, @function
+.cc_top return_zero.function
+.align 2
+return_zero:
+  ldc r0, 0
+  retsp 0
+.size return_zero, .-return_zero
+.cc_bottom return_zero.function
+.set return_zero.nstackwords, 0
+.set return_zero.maxcores, 1
+.set return_zero.maxtimers, 0
+.set return_zero.maxchanends, 0
+
+.type xs1g_drive_ports_low, @function
+.cc_top xs1g_drive_ports_low.function
+.align 2
+xs1g_drive_ports_low:
+  ldc r0, 6
+  ldc r1, 0
+  ldaw r11, cp[xs1g_link_ports]
+.Ldrive_ports_loop:
+  sub r0, r0, 1
+  ldw r2, r11[r0]
+  setc res[r2], XS1_SETC_INUSE_ON
+  out res[r2], r1
+  bt r0, .Ldrive_ports_loop
+  retsp 0
+.size xs1g_drive_ports_low, .-xs1g_drive_ports_low
+.cc_bottom xs1g_drive_ports_low.function
+.set xs1g_drive_ports_low.nstackwords, 0
+.set xs1g_drive_ports_low.maxcores, 0
+.set xs1g_drive_ports_low.maxtimers, 0
+.set xs1g_drive_ports_low.maxchanends, 0
+
+.type xs1g_turn_off_ports, @function
+.cc_top xs1g_turn_off_ports.function
+.align 2
+xs1g_turn_off_ports:
+  entsp 0
+  ldc r0, 6
+  ldc r1, 0
+  ldaw r11, cp[xs1g_link_ports]
+.Lturn_ports_off_loop:
+  sub r0, r0, 1
+  ldw r2, r11[r0]
+  setc res[r2], XS1_SETC_INUSE_OFF
+  bt r0, .Lturn_ports_off_loop
+  retsp 0
+.size xs1g_turn_off_ports, .-xs1g_turn_off_ports
+.cc_bottom xs1g_turn_off_ports.function
+.set xs1g_turn_off_ports.nstackwords, 0
+.set xs1g_turn_off_ports.maxcores, 0
+.set xs1g_turn_off_ports.maxtimers, 0
+.set xs1g_turn_off_ports.maxchanends, 0
+
+.section .cp.rodata, "ac", @progbits
+.align 4
+xs1g_link_ports:
+.word XS1_PORT_1B
+.word XS1_PORT_32A
+.word XS1_PORT_1C
+.word XS1_PORT_1F
+.word XS1_PORT_16A
+.word XS1_PORT_1G
+
+// void   _done (void);
+.weak _done
+.set _done.nstackwords, _DoSyscall.nstackwords
+.set _done.maxchanends, _DoSyscall.maxchanends
+.set _done.maxtimers, _DoSyscall.maxtimers
+.set _done.maxcores, _DoSyscall.maxcores
+.type _done, @function
+.text
+.cc_top _done.function
+.align 2
+_done:
+  ldc r0, 7 //OSCALL_DONE
+  bl _DoSyscall
+  // Ensure we never return
+  // We don't use waiteu because this would pause the thread and, at least on
+  // the simulator, the thread would remain paused after next binary is loaded.
+.L_done_loop:
+  bu .L_done_loop
+.size _done, .-_done
+.cc_bottom _done.function
+
+.set _DoSyscall.nstackwords, 0
+.set _DoSyscall.maxchanends, 0
+.set _DoSyscall.maxtimers, 0
+.set _DoSyscall.maxcores, 0
+.globl _DoSyscall
+.type _DoSyscall, @function
+.cc_top _DoSyscall.function
+.align 2
+_DoSyscall:
+  mkmsk r0, 32
+  retsp 0
+.size _DoSyscall, .-_DoSyscall
+.cc_bottom _DoSyscall.function
+

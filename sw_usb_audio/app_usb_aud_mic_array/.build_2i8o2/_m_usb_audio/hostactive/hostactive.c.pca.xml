@@ -1,0 +1,7 @@
+<preCompilationAnalysis file="/Users/rcalhoun/code/git/sw_usb_audio/sc_usb_audio/module_usb_audio/hostactive/hostactive.c">
+  <fCall global="true" name="UserHostActive"/>
+  <fCall global="true" name="UserHostActive.nstackwords"/>
+  <fCall global="true" name="UserHostActive.maxcores"/>
+  <fCall global="true" name="UserHostActive.maxtimers"/>
+  <fCall global="true" name="UserHostActive.maxchanends"/>
+</preCompilationAnalysis>

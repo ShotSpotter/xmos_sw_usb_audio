@@ -1,0 +1,91 @@
+$ xflash --verbose bin/2i8o2/devkit_firmware_2i8o2.xe 
+XFlash_Options::ListDevices : xgdb --batch -q --ex listdevices devl-3aec4776
+XFlash_Application found _start :40000 on Node 0
+XFlash_Application found _DoSyscall :42aa8 on Node 0
+XFlash_Application found _DoException :400a4 on Node 0
+XFlash_Application found _start :40000 on Node 0
+XFlash_Application found _DoSyscall :4715c on Node 0
+XFlash_Application found _DoException :400a4 on Node 0
+XFlash::DoXFlash
+XFlash::DoImageProgramming
+XFlash::GetDeviceInfo
+XFlash_DeviceInfo::GetDeviceInfo_SQI
+XFlash::BuildFlashBinaryFile
+XFlash_Builder_S2L::BuildStage2Loaders Factory
+Stage2_Loader::Compile : xcc -Wno-bidirectional-buffered-port -Wno-timing -Wno-unused-function -Xmapper --dontenablesodlinks -Xmapper --nochaninit -Xmapper --noinitialtidy -Xmapper --image-base -Xmapper 0x40080 -Xmapper --image-size -Xmapper 0x3ff80 -Xmapper --wno110 -Xmapper --wno226 -Xmapper --wnoXN -std=gnu99 -O2 -target=XCORE-200-EXPLORER -x none "/Applications/XMOS_XTC_15.1.4/target/app/xs2a/stage2loader_SQI.o" -lstage2loader -lsqiaccess -lquadspi -llocks -o s2l-n0-524881c9
+Stage2Loader found DEVICE_SECTOR_WORD_SIZE : 0x414e4 on Node 0
+Stage2Loader found flash_ports : 0x41468 on Node 0
+Stage2Loader found clock_config : 0x41478 on Node 0
+Stage2Loader found qe_config : 0x41490 on Node 0
+Stage2Loader found pllConfig : 0x41498 on Node 0
+Stage2Loader found otp_disable : 0x414e8 on Node 0
+xflash: Warning: F03148 --quad-spi-clock not given, using default 15.62MHz
+xflash: Warning: F03149 QE_REGISTER and/or QE_BIT locations not found in XN file for this flash device. Using default flash_qe_location_status_reg_0 and flash_qe_bit_6.
+Stage2Loader found spanning_routing_id : 0x41ef4 on Node 0
+Stage2Loader found spanning_table : 0x40e00 on Node 0
+Stage2Loader found num_spanning_tables : 0x41ef8 on Node 0
+Stage2Loader found routing_table : 0x41530 on Node 0
+Stage2Loader found num_routing_tables : 0x41efc on Node 0
+Stage2Loader found link_info : 0x416c0 on Node 0
+Stage2Loader found links_table : 0x418a0 on Node 0
+Stage2Loader found num_link_tables : 0x41f00 on Node 0
+Stage2Loader found galaxian_table : 0x41da0 on Node 0
+Stage2Loader found num_galaxian_tables : 0x41f04 on Node 0
+Stage2Loader found pll_table : 0x41e18 on Node 0
+XFlash_Builder_Image::BuildImages Factory
+XFlash_Builder_Image::BuildImageTable
+  master node = 0
+    node = 0
+XFlash_Builder_Image::BuildImageTable num cores for image table = 2
+XFlash_Builder_Image::CalculateBufferSize Starting calculation _total_image_size=0
+XFlash_Builder_Image::CalculateBufferSize Add Image Header _total_image_size=34
+XFlash_Builder_Image::CalculateBufferSize Add Switch Setup header _total_image_size=3c
+XFlash_Builder_Image::CalculateBufferSize Add Per Core header _total_image_size=74
+XFlash_Builder_Image::CalculateBufferSize_SwitchSetup _total_image_size=1f80
+XFlash_Builder_Image::CalculateBufferSize_Application application size = 7458 _total_image_size = 93d8
+XFlash_Builder_Image::CalculateBufferSize_Application application size = aff0 _total_image_size = 143c8
+XFlash_Builder_Image::BuildImageTable allocated image buffer size = 143c8
+XFlash_Builder_Image::WriteBuffer_ImageHeader
+XFlash_Builder_Image::WriteBuffer_SwitchSetup current switch setup table offset : 34
+XFlash_Builder_Image::WriteBuffer_SwitchSetup current application data offset : 74
+XFlash_Builder_Image::WriteBuffer_SwitchSetup size : 1f08
+XFlash_Builder_Image::WriteBuffer_SwitchSetup aligned_size : 1f0c
+XFlash_Builder_Image::WriteBuffer_SwitchSetup init_vec_shift : 0
+XFlash_Builder_Image::WriteBuffer_Application
+XFlash_Builder_Image::WriteBuffer_Application for node : 0
+XFlash_Builder_Image::WriteBuffer_Application for core : 0
+XFlash_Builder_Image::WriteBuffer_Application current core table offset : 3c
+XFlash_Builder_Image::WriteBuffer_Application current application data offset : 1f80
+XFlash_Builder_Image::WriteBuffer_Application size : 7454
+XFlash_Builder_Image::WriteBuffer_Application aligned_size : 7458
+XFlash_Builder_Image::WriteBuffer_Application init_vec_shift : 0
+XFlash_Builder_Image::WriteBuffer_Application chan end : 80020002
+XFlash_Builder_Image::WriteBuffer_Application for core : 1
+XFlash_Builder_Image::WriteBuffer_Application current core table offset : 58
+XFlash_Builder_Image::WriteBuffer_Application current application data offset : 93d8
+XFlash_Builder_Image::WriteBuffer_Application size : afec
+XFlash_Builder_Image::WriteBuffer_Application aligned_size : aff0
+XFlash_Builder_Image::WriteBuffer_Application init_vec_shift : 0
+XFlash_Builder_Image::WriteBuffer_Application chan end : 80030002
+XFlash_Builder_Image::WriteBuffer_CRC
+XFlash_Builder_Binary::BuildBinary
+XFlash_Builder_Binary::CalculateBufferSize_Factory
+XFlash_Builder_Binary::CalculateBufferSize_Factory : Adding s2l size word (4)4
+XFlash_Builder_Binary::CalculateBufferSize_Factory : Adding s2l app (14f4) 14f8
+XFlash_Builder_Binary::CalculateBufferSize_Factory : Adding s2l crc (4)14fc
+XFlash_Builder_Binary::CalculateBufferSize_Factory : Adding factory app (143c8) 158c4
+XFlash_Builder_Binary::CalculateBufferSize_Factory : Adding sector padding (73c) 16000
+XFlash_Builder_Binary::CalculateBufferSize_Factory : First User Sector offset = 16000
+XFlash_Builder_Binary::GetSearchLimitPadding : current size (16000) 0
+XFlash_Builder_Binary::CalculateBufferSize_Data
+XFlash_Builder_Binary::BuildBinary : Allocating buffer - 16000
+XFlash_Builder_Binary::GetSearchLimitPadding : current size (16000) 0
+XFlash_Builder_Binary::WriteBufferToBinary : flash_bin_node0
+XFlash_Programmer_Write::DoWrite
+XFlash_Programmer_Write::IssueCompileCommand
+xcc -w -Xmapper --don
+tenablesodlinks  -x xn "target-xn-v0-c073b674" -O2 -lquadspi -D xnPORT_SQI_CS0=PORT_SQI_CS -D xnPORT_SQI_SCLK0=PORT_SQI_SCLK -D xnPORT_SQI_SIO0=PORT_SQI_SIO -x xc "fw-fdc4a4f4" -o "fw-1ef2309c" 
+XFlash_Utils::BuildRunCommand : xrun --io fw-1ef2309c 
+XFlash_Programmer_Program::IssueResetCommand : xgdb --batch-silent --ex connect --ex reset mode-pins nointerrupt --ex q 
+$ echo $?
+0

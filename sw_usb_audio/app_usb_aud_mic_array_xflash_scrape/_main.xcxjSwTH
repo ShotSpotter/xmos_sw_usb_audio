@@ -1,0 +1,8 @@
+# 1 "fw-fdc4a4f4"
+unsafe{
+out port __localPortInitializer0 = 0x10000;
+buffered out port:32 __localPortInitializer1 = 0x10100;
+buffered port:32 __localPortInitializer2 = 0x40100;
+__clock_t __localPortInitializer3 = 0x506;
+}
+

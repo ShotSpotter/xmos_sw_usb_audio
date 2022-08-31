@@ -1,0 +1,170 @@
+#include <platform.h>
+#include <xmos_flash.h>
+#include <xclib.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stdio.h>
+
+flash_ports_t flash_ports_0 =
+{
+  PORT_SQI_CS,
+  PORT_SQI_SCLK,
+  PORT_SQI_SIO,
+  on tile[0]: XS1_CLKBLK_5
+};
+
+flash_clock_config_t flash_clock_config = 
+{
+  1,
+  8,
+  8,
+  1,
+  0,
+};
+
+flash_qe_config_t flash_qe_config_0 = 
+{
+  flash_qe_location_status_reg_0,
+  flash_qe_bit_6
+};
+
+unsigned is_busy(flash_handle_t * flash_handle)
+{
+  unsigned char status;
+  status = flash_read_status_register(flash_handle, flash_status_register_0);
+  return (status & 0x1) == 1;
+}
+
+void wait_while_busy(flash_handle_t * flash_handle)
+{
+  timer tmr;
+  unsigned int t;
+  while(is_busy(flash_handle))
+  {
+    tmr :> t;
+    tmr when timerafter(t+100) :> t;
+  }
+}
+
+void enable_quad_mode(flash_handle_t * flash_handle, flash_qe_config_t & flash_qe_config)
+{
+  unsigned char quad_enable[2] = {0x00, 0x00};
+  flash_num_status_bytes_t num_status_bytes;
+  if(flash_qe_config.flash_qe_location == flash_qe_location_status_reg_0)
+  {
+    quad_enable[0] = (1 << flash_qe_config.flash_qe_shift);
+    num_status_bytes = flash_num_status_bytes_1;
+  }
+  else
+  {
+    quad_enable[1] = (1 << flash_qe_config.flash_qe_shift);
+    num_status_bytes = flash_num_status_bytes_2;
+  }
+
+  flash_write_enable(flash_handle);
+  flash_write_status_register(flash_handle, quad_enable, num_status_bytes);
+  wait_while_busy(flash_handle);
+}
+
+extern "C" {int setvbuf ( FILE * stream, char * buffer, int mode, size_t size );}
+
+#define FILE_BUF_SIZE 32768
+char file_buf[FILE_BUF_SIZE];
+
+const char* write_from_file[]=
+{
+  "flash_bin_node0",
+};
+
+int main()
+{
+  chan backFrom0;
+
+  par
+  {
+    on tile[0]:
+    {
+      unsigned int isOkay = 1;
+      unsigned int respCount = 0;
+      unsigned int resCode;
+
+      while( respCount < 1 )
+      {
+        select
+        {
+        case backFrom0 :> resCode:
+          isOkay &= (resCode==0);
+          respCount++;
+          break;
+        }
+      }
+
+      backFrom0 <: 0;
+      backFrom0 :> resCode;
+
+      if( !isOkay )
+      {
+        exit(1);
+      }
+      exit(0);
+    }
+
+    on tile[1]:
+    {
+      while(1) {}
+    }
+
+    on tile[0]:
+    {
+      unsigned char buf[256];
+      int pNum, pCount;
+      unsigned int page_size;
+
+      flash_handle_t flash_handle;
+      flash_connect(&flash_handle, &flash_ports_0, flash_clock_config, flash_qe_config_0);
+      enable_quad_mode(&flash_handle, flash_qe_config_0);
+      flash_write_enable(&flash_handle);
+      flash_erase_chip(&flash_handle);
+      wait_while_busy(&flash_handle);
+
+      FILE * movable inFile = fopen(write_from_file[0],"rb");
+      if(inFile == NULL)
+      {
+        exit(1);
+      }
+
+      setvbuf(inFile, file_buf, _IOFBF, FILE_BUF_SIZE);
+
+      page_size = 256;
+      if(page_size > 256)
+      {
+        printf("Error: page sizes greater than 256 bytes are unsupported (found %%d bytes).\n", page_size);
+        exit(1);
+      }
+
+      pCount = 8192;
+      for(pNum = 0; pNum < pCount; pNum++)
+      {
+        int i;
+        unsigned int bytesRead;
+        for(i = 0; i < page_size; i++) {buf[i]=0;}
+        bytesRead = fread(buf, 1, 256, inFile);
+        if(bytesRead == 0) {break;}
+        flash_write_enable(&flash_handle);
+        flash_write_page(&flash_handle, pNum * page_size, buf, page_size);
+        wait_while_busy(&flash_handle);
+        if(bytesRead < page_size) {break;}
+      }
+
+      fclose(move(inFile));
+      flash_disconnect(&flash_handle);
+
+      unsigned int dud;
+      backFrom0 <: 0;
+      backFrom0 :> dud;
+      backFrom0 <: 0;
+    }
+
+  }
+  return(0);
+}

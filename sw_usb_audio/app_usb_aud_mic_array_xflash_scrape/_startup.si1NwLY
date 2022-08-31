@@ -1,0 +1,104 @@
+#include <xs1.h>
+.text
+.globl main
+.type main, @function
+.align 2
+main:
+  entsp 2
+.Lmain_get_all_chanends:
+  getr r0, XS1_RES_TYPE_CHANEND
+  bt r0, .Lmain_get_all_chanends
+  ldc r0, 0x1f02
+.section .cp.const4, "acM", @progbits, 4
+.align 4
+.Lconst0:
+.word 0x80031e02
+.text
+  ldw r11, cp[.Lconst0]
+  setd res[r0], r11
+  outct res[r0], XS1_CT_END
+  chkct res[r0], XS1_CT_END
+  ldw r1, dp[__timers]
+  setc res[r1], XS1_SETC_COND_NONE
+  in r2, res[r1]
+  clre
+  ldc r11, 0xa
+  add r2, r2, r11
+  setc res[r1], XS1_SETC_COND_AFTER
+  setd res[r1], r2
+  ldap r11, .Lmaster_skip_ack
+  setv res[r1], r11
+  ldap r11, .Lmaster_ack
+  setv res[r0], r11
+  setsr XS1_SR_EEBLE_SET(0, 1)
+  eeu res[r0]
+  nop
+  eeu res[r1]
+  waiteu
+.Lmaster_ack:
+  chkct res[r0], XS1_CT_END
+.Lmaster_skip_ack:
+  ldc r0, XS1_RES_TYPE_CHANEND
+.section .cp.rodata, "ac", @progbits
+.align 4
+tiles_to_wake:
+.word 0x80031e02
+.text
+  ldc r1, 1
+  ldaw r11, cp[tiles_to_wake]
+.Lwake_tile_loop:
+  sub r1, r1, 1
+  ldw r2, r11[r1]
+  setd res[r0], r2
+  outt res[r0], r0
+  outct res[r0], XS1_CT_END
+  bt r1, .Lwake_tile_loop
+  ldc r0, 0x5
+  bl delay_ticks
+.section .cp.rodata, "ac", @progbits
+.align 4
+chanends_to_setup:
+.word 0xff
+.text
+  ldaw r11, cp[chanends_to_setup]
+  ldc r0, 0
+  ldc r1, XS1_NUM_CHANENDS
+  ldc r4, XS1_RES_TYPE_CHANEND
+.Lchanend_setup_loop:
+  ldw r2, r11[0]
+  shr r3, r2, 8 // dest
+  zext r2, 8 // num
+  eq r5, r2, r0
+  bf r5, .Lfree_chanend
+  shl r2, r2, 8
+  or r2, r2, r4
+  shl r3, r3, 8
+  or r3, r3, r4
+  setd res[r2], r3
+  add r11, r11, 4
+  bu .Lchanend_setup_inc
+.Lfree_chanend:
+  shl r2, r0, 8
+  or r2, r2, r4
+  freer res[r2]
+.Lchanend_setup_inc:
+  add r0, r0, 1
+  eq r2, r0, r1
+  bf r2, .Lchanend_setup_loop
+.text
+  bl __main__main_tile_0
+  ldc r0, 0
+  retsp 2
+.size main, .-main
+.call main, __main__main_tile_0
+.call main, delay_ticks
+.globl main.nstackwords
+.globl main.maxthreads
+.globl main.maxtimers
+.globl main.maxchanends
+.set main.nstackwords, (__main__main_tile_0.nstackwords $M delay_ticks.nstackwords) + 2
+.set main.maxthreads, __main__main_tile_0.maxthreads $M delay_ticks.maxthreads
+.set main.maxtimers, __main__main_tile_0.maxtimers $M delay_ticks.maxtimers
+.set main.maxchanends, (__main__main_tile_0.maxchanends $M delay_ticks.maxchanends) + 0
+    .section .dp.data,       "adw", @progbits
+    .align 4
